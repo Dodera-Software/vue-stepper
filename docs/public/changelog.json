@@ -1,6 +1,29 @@
 {
     "versions": [
         {
+            "version": "1.0.2",
+            "date": "2025-11-27",
+            "type": "patch",
+            "summary": "Documentation Internationalization & Package Fixes",
+            "changes": [
+                {
+                    "type": "feature",
+                    "title": "i18n Support",
+                    "description": "Added internationalization to documentation site with English and Romanian language support."
+                },
+                {
+                    "type": "feature",
+                    "title": "Language Switcher",
+                    "description": "Added language switcher component in the sidebar for easy locale switching."
+                },
+                {
+                    "type": "fix",
+                    "title": "npm README",
+                    "description": "Fixed missing README.md in npm package (was not displayed on npmjs.com for v1.0.1)."
+                }
+            ]
+        },
+        {
             "version": "1.0.1",
             "date": "2025-11-27",
             "type": "minor",

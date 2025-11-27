@@ -1,6 +1,6 @@
 {
   "name": "@doderasoftware/vue-stepper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease. Features TypeScript support, responsive mobile design, step validation, optional steps, progress tracking, and a powerful :ui prop system for complete style control.",
   "author": {
     "name": "Dodera Software SRL",
@@ -63,7 +63,8 @@
     "./dist/style.css": "./dist/vue-stepper.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "sideEffects": [
     "**/*.css"

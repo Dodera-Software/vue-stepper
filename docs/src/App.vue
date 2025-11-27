@@ -339,7 +339,7 @@ onMounted(() => {
     >
       <div class="h-full flex flex-col">
         <div class="p-8 border-b border-zinc-200/50 flex items-center justify-between">
-          <p class="text-xs text-zinc-500 font-mono">v1.0.1</p>
+          <p class="text-xs text-zinc-500 font-mono">v1.0.2</p>
           <LanguageSwitcher />
         </div>
 
