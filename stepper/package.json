@@ -1,0 +1,64 @@
+{
+  "name": "@doderasoftware/vue-stepper",
+  "version": "1.0.0",
+  "description": "A headless, accessible, and customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease.",
+  "author": "Dodera Software SRL",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dodera-Software/vue-stepper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dodera-Software/vue-stepper/issues"
+  },
+  "homepage": "https://github.com/Dodera-Software/vue-stepper#readme",
+  "keywords": [
+    "vue",
+    "vue3",
+    "stepper",
+    "multi-step",
+    "wizard",
+    "form",
+    "form-wizard",
+    "step-by-step",
+    "onboarding",
+    "typescript",
+    "component",
+    "headless"
+  ],
+  "type": "module",
+  "main": "./dist/vue-stepper.umd.cjs",
+  "module": "./dist/vue-stepper.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vue-stepper.js",
+      "require": "./dist/vue-stepper.umd.cjs"
+    },
+    "./dist/style.css": "./dist/vue-stepper.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0",
+    "vite-plugin-dts": "^4.5.0",
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.2.10"
+  }
+}
