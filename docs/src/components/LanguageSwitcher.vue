@@ -37,7 +37,7 @@ onMounted(() => {
       @click="isOpen = !isOpen"
     >
       <Globe :size="16" />
-      <span class="sm:hidden">{{ currentLanguage().flag }}</span>
+      <span class="sm:hidden">{{ currentLanguage()?.flag }}</span>
       <ChevronDown :size="14" :class="['transition-transform', isOpen ? 'rotate-180' : '']" />
     </button>
 
