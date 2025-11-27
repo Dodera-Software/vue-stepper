@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Check, Copy } from 'lucide-vue-next'
 import { codeToHtml } from 'shiki'
+
+const { t } = useI18n()
 
 interface Props {
   language: string
@@ -51,13 +54,13 @@ async function handleCopy() {
     <div class="relative">
       <button
         class="absolute right-3 top-3 p-1.5 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-zinc-700 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10"
-        aria-label="Copy code"
+        :aria-label="t('Copy code')"
         @click="handleCopy"
       >
         <Check v-if="copied" :size="16" class="text-emerald-500" />
         <Copy v-else :size="16" />
       </button>
-      <div v-if="isLoading" class="p-4 text-zinc-500 font-mono text-sm">Loading...</div>
+      <div v-if="isLoading" class="p-4 text-zinc-500 font-mono text-sm">{{ t('Loading...') }}</div>
       <div
         v-else
         class="shiki-wrapper overflow-x-auto text-sm [&_pre]:!bg-transparent [&_pre]:p-4 [&_pre]:m-0 [&_code]:font-mono [&_.line]:leading-relaxed"

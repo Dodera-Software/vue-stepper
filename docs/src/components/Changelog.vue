@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Sparkles, Wrench, FileText, AlertCircle, ChevronDown, ChevronUp } from 'lucide-vue-next'
+
+const { t } = useI18n()
 
 interface Change {
   type: 'feature' | 'change' | 'fix' | 'docs' | 'breaking'
@@ -79,11 +82,11 @@ function getChangeColor(type: Change['type']) {
 
 function getChangeBadge(type: Change['type']) {
   switch (type) {
-    case 'feature': return 'Feature'
-    case 'change': return 'Change'
-    case 'fix': return 'Fix'
-    case 'docs': return 'Docs'
-    case 'breaking': return 'Breaking'
+    case 'feature': return t('Feature')
+    case 'change': return t('Change')
+    case 'fix': return t('Fix')
+    case 'docs': return t('Docs')
+    case 'breaking': return t('Breaking')
     default: return type
   }
 }
@@ -110,7 +113,7 @@ function formatDate(dateStr: string) {
   <div class="space-y-4">
     <!-- Loading State -->
     <div v-if="loading" class="text-center py-8 text-zinc-500">
-      Loading changelog...
+      {{ t('Loading changelog...') }}
     </div>
 
     <!-- Error State -->

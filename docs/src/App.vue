@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { 
   Menu, 
   X, 
@@ -16,7 +17,10 @@ import CodeBlock from './components/CodeBlock.vue'
 import ApiTable from './components/ApiTable.vue'
 import StepperDemo from './components/StepperDemo.vue'
 import Changelog from './components/Changelog.vue'
+import LanguageSwitcher from './components/LanguageSwitcher.vue'
 import type { PropDefinition, EventDefinition, SlotDefinition } from './types'
+
+const { t } = useI18n()
 
 // --- Data Constants ---
 
@@ -109,15 +113,15 @@ interface Section {
   icon: any
 }
 
-const sections: Section[] = [
-  { id: 'introduction', title: 'Introduction', icon: Box },
-  { id: 'demo', title: 'Live Demo', icon: Play },
-  { id: 'installation', title: 'Installation', icon: Cpu },
-  { id: 'usage', title: 'Usage', icon: Code2 },
-  { id: 'customization', title: 'UI Customization', icon: Layers },
-  { id: 'api', title: 'API Reference', icon: Layers },
-  { id: 'changelog', title: 'Changelog', icon: History },
-]
+const sections = computed<Section[]>(() => [
+  { id: 'introduction', title: t('Introduction'), icon: Box },
+  { id: 'demo', title: t('Live Demo'), icon: Play },
+  { id: 'installation', title: t('Installation'), icon: Cpu },
+  { id: 'usage', title: t('Usage'), icon: Code2 },
+  { id: 'customization', title: t('UI Customization'), icon: Layers },
+  { id: 'api', title: t('API Reference'), icon: Layers },
+  { id: 'changelog', title: t('Changelog'), icon: History },
+])
 
 const uiCustomizationCode = `<template>
   <Stepper
@@ -334,8 +338,9 @@ onMounted(() => {
       :class="mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="h-full flex flex-col">
-        <div class="p-8 border-b border-zinc-200/50">
-          <p class="text-xs text-zinc-500 mt-2 font-mono">v1.0.1</p>
+        <div class="p-8 border-b border-zinc-200/50 flex items-center justify-between">
+          <p class="text-xs text-zinc-500 font-mono">v1.0.1</p>
+          <LanguageSwitcher />
         </div>
 
         <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
@@ -353,7 +358,7 @@ onMounted(() => {
         <div class="p-6 border-t border-zinc-200/50">
           <a href="https://github.com/Dodera-Software/vue-stepper" class="flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors">
             <Github :size="18" />
-            View on GitHub
+            {{ t('View on GitHub') }}
           </a>
         </div>
       </div>
@@ -366,11 +371,10 @@ onMounted(() => {
         <section id="introduction" class="space-y-6">
           <div class="space-y-2">
             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-900">
-              A better way to build <span class="text-zinc-400">flows</span>.
+              {{ t('A better way to build') }} <span class="text-zinc-400">{{ t('flows') }}</span>.
             </h1>
             <p class="text-xl text-zinc-500 max-w-2xl leading-relaxed">
-              A headless, accessible, and customizable stepper component for Vue 3.
-              Manage complex forms and wizards with ease.
+              {{ t('A headless, accessible, and customizable stepper component for Vue 3. Manage complex forms and wizards with ease.') }}
             </p>
           </div>
 
@@ -378,39 +382,39 @@ onMounted(() => {
             <div class="flex gap-3 items-start">
               <CheckCircle2 class="text-zinc-900 mt-1 shrink-0" :size="20" />
               <div>
-                <h3 class="font-semibold text-zinc-900">Responsive Layout</h3>
-                <p class="text-sm text-zinc-500">Sidebar collapses on mobile with horizontal scrolling.</p>
+                <h3 class="font-semibold text-zinc-900">{{ t('Responsive Layout') }}</h3>
+                <p class="text-sm text-zinc-500">{{ t('Sidebar collapses on mobile with horizontal scrolling.') }}</p>
               </div>
             </div>
             <div class="flex gap-3 items-start">
               <CheckCircle2 class="text-zinc-900 mt-1 shrink-0" :size="20" />
               <div>
-                <h3 class="font-semibold text-zinc-900">Step Locking</h3>
-                <p class="text-sm text-zinc-500">Prevent navigation to specific steps with simple props.</p>
+                <h3 class="font-semibold text-zinc-900">{{ t('Step Locking') }}</h3>
+                <p class="text-sm text-zinc-500">{{ t('Prevent navigation to specific steps with simple props.') }}</p>
               </div>
             </div>
             <div class="flex gap-3 items-start">
               <CheckCircle2 class="text-zinc-900 mt-1 shrink-0" :size="20" />
               <div>
-                <h3 class="font-semibold text-zinc-900">Optional Steps</h3>
-                <p class="text-sm text-zinc-500">Mark steps as optional to display visual indicators.</p>
+                <h3 class="font-semibold text-zinc-900">{{ t('Optional Steps') }}</h3>
+                <p class="text-sm text-zinc-500">{{ t('Mark steps as optional to display visual indicators.') }}</p>
               </div>
             </div>
             <div class="flex gap-3 items-start">
               <CheckCircle2 class="text-zinc-900 mt-1 shrink-0" :size="20" />
               <div>
-                <h3 class="font-semibold text-zinc-900">Progress Tracking</h3>
-                <p class="text-sm text-zinc-500">Automatic step counters and visual progress bars.</p>
+                <h3 class="font-semibold text-zinc-900">{{ t('Progress Tracking') }}</h3>
+                <p class="text-sm text-zinc-500">{{ t('Automatic step counters and visual progress bars.') }}</p>
               </div>
             </div>
           </div>
 
           <div class="flex gap-4 pt-4">
             <button class="px-6 py-3 bg-zinc-900 text-white rounded-lg font-medium hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-900/20" @click="scrollToSection('demo')">
-              Try Live Demo
+              {{ t('Try Live Demo') }}
             </button>
             <button class="px-6 py-3 bg-white text-zinc-900 border border-zinc-200 rounded-lg font-medium hover:bg-zinc-50 transition-all" @click="scrollToSection('installation')">
-              Get Started
+              {{ t('Get Started') }}
             </button>
           </div>
         </section>
@@ -419,11 +423,10 @@ onMounted(() => {
         <section id="demo" class="scroll-mt-20">
           <div class="mb-8">
             <h2 class="text-2xl font-bold tracking-tight mb-2 flex items-center gap-2">
-              <Play class="text-zinc-400" /> Live Demo
+              <Play class="text-zinc-400" /> {{ t('Live Demo') }}
             </h2>
             <p class="text-zinc-500 max-w-2xl">
-              Experience the Stepper component in action. This interactive demo showcases the sidebar navigation,
-              step progression, validation, and responsive design. Try resizing your browser to see the mobile layout.
+              {{ t('Experience the Stepper component in action. This interactive demo showcases the sidebar navigation, step progression, validation, and responsive design. Try resizing your browser to see the mobile layout.') }}
             </p>
           </div>
 
@@ -453,7 +456,7 @@ onMounted(() => {
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                       <circle cx="12" cy="12" r="3" />
                     </svg>
-                    Preview
+                    {{ t('Preview') }}
                   </button>
                   <button
                     class="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all"
@@ -461,7 +464,7 @@ onMounted(() => {
                     @click="demoView = 'code'"
                   >
                     <Code2 :size="16" />
-                    Code
+                    {{ t('Code') }}
                   </button>
                 </div>
               </div>
@@ -473,22 +476,22 @@ onMounted(() => {
                 <div class="w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center mb-3">
                   <Layers :size="16" />
                 </div>
-                <h4 class="font-semibold text-zinc-900 mb-1">Sidebar Navigation</h4>
-                <p class="text-sm text-zinc-500">Click on completed steps to navigate back. Visual indicators show progress.</p>
+                <h4 class="font-semibold text-zinc-900 mb-1">{{ t('Sidebar Navigation') }}</h4>
+                <p class="text-sm text-zinc-500">{{ t('Click on completed steps to navigate back. Visual indicators show progress.') }}</p>
               </div>
               <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
                 <div class="w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center mb-3">
                   <CheckCircle2 :size="16" />
                 </div>
-                <h4 class="font-semibold text-zinc-900 mb-1">Step Validation</h4>
-                <p class="text-sm text-zinc-500">Continue button is disabled until required fields are filled.</p>
+                <h4 class="font-semibold text-zinc-900 mb-1">{{ t('Step Validation') }}</h4>
+                <p class="text-sm text-zinc-500">{{ t('Continue button is disabled until required fields are filled.') }}</p>
               </div>
               <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
                 <div class="w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center mb-3">
                   <Menu :size="16" />
                 </div>
-                <h4 class="font-semibold text-zinc-900 mb-1">Mobile Responsive</h4>
-                <p class="text-sm text-zinc-500">Sidebar collapses into a dropdown menu on smaller screens.</p>
+                <h4 class="font-semibold text-zinc-900 mb-1">{{ t('Mobile Responsive') }}</h4>
+                <p class="text-sm text-zinc-500">{{ t('Sidebar collapses into a dropdown menu on smaller screens.') }}</p>
               </div>
             </div>
           </div>
@@ -497,25 +500,24 @@ onMounted(() => {
         <!-- Installation -->
         <section id="installation" class="scroll-mt-20">
           <h2 class="text-2xl font-bold tracking-tight mb-6 flex items-center gap-2">
-            <Cpu class="text-zinc-400" /> Installation
+            <Cpu class="text-zinc-400" /> {{ t('Installation') }}
           </h2>
           <div class="prose prose-zinc max-w-none text-zinc-600">
-            <p>Install the component via your preferred package manager.</p>
+            <p>{{ t('Install the component via your preferred package manager.') }}</p>
           </div>
           <CodeBlock language="bash" code="npm install @doderasoftware/vue-stepper" />
           <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
-            <strong>Note:</strong> This component requires Vue 3.3+ and Tailwind CSS for the default styling classes (though styles are overridable).
+            <strong>{{ t('Note:') }}</strong> {{ t('This component requires Vue 3.3+ and Tailwind CSS for the default styling classes (though styles are overridable).') }}
           </div>
         </section>
 
         <!-- Usage -->
         <section id="usage" class="scroll-mt-20">
           <h2 class="text-2xl font-bold tracking-tight mb-6 flex items-center gap-2">
-            <Code2 class="text-zinc-400" /> Usage
+            <Code2 class="text-zinc-400" /> {{ t('Usage') }}
           </h2>
           <p class="text-zinc-600 mb-6">
-            Import the component and pass your steps configuration. The <code class="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono text-xs">default</code> slot provides
-            the current step index for managing your own UI logic.
+            {{ t('Import the component and pass your steps configuration. The') }} <code class="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono text-xs">default</code> {{ t('slot provides the current step index for managing your own UI logic.') }}
           </p>
           <CodeBlock language="vue" file-name="RegistrationForm.vue" :code="usageCode" />
         </section>
@@ -524,11 +526,11 @@ onMounted(() => {
         <section id="customization" class="scroll-mt-20 space-y-8">
           <div>
             <h2 class="text-2xl font-bold tracking-tight mb-2 flex items-center gap-2">
-              <Layers class="text-zinc-400" /> UI Customization
+              <Layers class="text-zinc-400" /> {{ t('UI Customization') }}
             </h2>
             <p class="text-zinc-500 max-w-2xl">
-              Override any default class using the <code class="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono text-xs">:ui</code> prop.
-              All keys follow BEM naming convention (<code class="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono text-xs">stepper__element--modifier</code>).
+              {{ t('Override any default class using the') }} <code class="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono text-xs">:ui</code> {{ t('prop.') }}
+              {{ t('All keys follow BEM naming convention') }} (<code class="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono text-xs">stepper__element--modifier</code>).
             </p>
           </div>
 
@@ -537,22 +539,22 @@ onMounted(() => {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
               <h4 class="font-semibold text-zinc-900 mb-2">:ui</h4>
-              <p class="text-sm text-zinc-500">Customize main stepper wrapper, sidebar, steps, content area, navigation buttons, and progress bar.</p>
+              <p class="text-sm text-zinc-500">{{ t('Customize main stepper wrapper, sidebar, steps, content area, navigation buttons, and progress bar.') }}</p>
             </div>
             <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
               <h4 class="font-semibold text-zinc-900 mb-2">:mobileHeaderUI</h4>
-              <p class="text-sm text-zinc-500">Customize mobile header wrapper, step counter, dropdown button, and menu items.</p>
+              <p class="text-sm text-zinc-500">{{ t('Customize mobile header wrapper, step counter, dropdown button, and menu items.') }}</p>
             </div>
             <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
               <h4 class="font-semibold text-zinc-900 mb-2">:optionalNoticeUI</h4>
-              <p class="text-sm text-zinc-500">Customize the optional step notice wrapper, icon, and text styling.</p>
+              <p class="text-sm text-zinc-500">{{ t('Customize the optional step notice wrapper, icon, and text styling.') }}</p>
             </div>
           </div>
 
           <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
-            <strong>Tip:</strong> All UI interfaces are fully typed. Import <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">StepperUI</code>,
-            <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">MobileHeaderUI</code>, and
-            <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">OptionalNoticeUI</code> for type-safe customization.
+            <strong>{{ t('Tip:') }}</strong> {{ t('All UI interfaces are fully typed. Import') }} <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">StepperUI</code>,
+            <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">MobileHeaderUI</code>, {{ t('and') }}
+            <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">OptionalNoticeUI</code> {{ t('for type-safe customization.') }}
           </div>
         </section>
 
@@ -560,43 +562,43 @@ onMounted(() => {
         <section id="api" class="scroll-mt-20 space-y-12">
           <div>
             <h2 class="text-2xl font-bold tracking-tight mb-2 flex items-center gap-2">
-              <Layers class="text-zinc-400" /> API Reference
+              <Layers class="text-zinc-400" /> {{ t('API Reference') }}
             </h2>
-            <p class="text-zinc-500">Comprehensive list of available props, events, and slots.</p>
+            <p class="text-zinc-500">{{ t('Comprehensive list of available props, events, and slots.') }}</p>
           </div>
 
           <div>
-            <h3 class="text-lg font-semibold text-zinc-900 mb-4 pl-3 border-l-4 border-zinc-900">Props</h3>
+            <h3 class="text-lg font-semibold text-zinc-900 mb-4 pl-3 border-l-4 border-zinc-900">{{ t('Props') }}</h3>
             <ApiTable
               :columns="[
-                { header: 'Prop', key: 'name', width: 'w-1/6' },
-                { header: 'Type', key: 'type', width: 'w-1/6' },
-                { header: 'Default', key: 'default', width: 'w-1/6' },
-                { header: 'Description', key: 'description' },
+                { header: t('Prop'), key: 'name', width: 'w-1/6' },
+                { header: t('Type'), key: 'type', width: 'w-1/6' },
+                { header: t('Default'), key: 'default', width: 'w-1/6' },
+                { header: t('Description'), key: 'description' },
               ]"
               :data="propsData"
             />
           </div>
 
           <div>
-            <h3 class="text-lg font-semibold text-zinc-900 mb-4 pl-3 border-l-4 border-zinc-900">Events</h3>
+            <h3 class="text-lg font-semibold text-zinc-900 mb-4 pl-3 border-l-4 border-zinc-900">{{ t('Events') }}</h3>
             <ApiTable
               :columns="[
-                { header: 'Event', key: 'name', width: 'w-1/4' },
-                { header: 'Payload', key: 'payload', width: 'w-1/4' },
-                { header: 'Description', key: 'description' },
+                { header: t('Event'), key: 'name', width: 'w-1/4' },
+                { header: t('Payload'), key: 'payload', width: 'w-1/4' },
+                { header: t('Description'), key: 'description' },
               ]"
               :data="eventsData"
             />
           </div>
 
           <div>
-            <h3 class="text-lg font-semibold text-zinc-900 mb-4 pl-3 border-l-4 border-zinc-900">Slots</h3>
+            <h3 class="text-lg font-semibold text-zinc-900 mb-4 pl-3 border-l-4 border-zinc-900">{{ t('Slots') }}</h3>
             <ApiTable
               :columns="[
-                { header: 'Slot', key: 'name', width: 'w-1/6' },
-                { header: 'Scope', key: 'props', width: 'w-1/3' },
-                { header: 'Description', key: 'description' },
+                { header: t('Slot'), key: 'name', width: 'w-1/6' },
+                { header: t('Scope'), key: 'props', width: 'w-1/3' },
+                { header: t('Description'), key: 'description' },
               ]"
               :data="slotsData"
             />
@@ -607,9 +609,9 @@ onMounted(() => {
         <section id="changelog" class="scroll-mt-20 space-y-6">
           <div>
             <h2 class="text-2xl font-bold tracking-tight mb-2 flex items-center gap-2">
-              <History class="text-zinc-400" /> Changelog
+              <History class="text-zinc-400" /> {{ t('Changelog') }}
             </h2>
-            <p class="text-zinc-500">Track all updates, new features, and improvements to the package.</p>
+            <p class="text-zinc-500">{{ t('Track all updates, new features, and improvements to the package.') }}</p>
           </div>
 
           <Changelog />
@@ -634,7 +636,7 @@ onMounted(() => {
                 GitHub
               </a>
               <a href="https://github.com/Dodera-Software/vue-stepper/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-zinc-900 text-sm font-medium transition-colors">
-                MIT License
+                {{ t('MIT License') }}
               </a>
             </div>
           </div>

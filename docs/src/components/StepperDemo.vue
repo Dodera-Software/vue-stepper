@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Check, Lock, ChevronLeft, ChevronRight, CheckCircle, Menu, X, User, FileText, Settings, Info } from 'lucide-vue-next'
+
+const { t } = useI18n()
 
 interface StepConfig {
   id?: string | number
@@ -25,17 +28,23 @@ const formData = ref({
   preferences: { emailNotif: true, smsNotif: false, marketingNotif: false, timezone: '' },
 })
 
-const steps: StepConfig[] = [
-  { id: 1, category: 'Step 1', title: 'Personal Info' },
-  { id: 2, category: 'Step 2', title: 'Account Details', optional: true },
-  { id: 3, category: 'Step 3', title: 'Preferences', disabled: false },
-  { id: 4, category: 'Step 4', title: 'Review & Submit' },
-]
+const steps = computed<StepConfig[]>(() => [
+  { id: 1, category: t('Step 1'), title: t('Personal Info') },
+  { id: 2, category: t('Step 2'), title: t('Account Details'), optional: true },
+  { id: 3, category: t('Step 3'), title: t('Preferences'), disabled: false },
+  { id: 4, category: t('Step 4'), title: t('Review & Submit') },
+])
 
-const progress = computed(() => ((currentStep.value + 1) / steps.length) * 100)
+const notificationOptions = computed(() => [
+  { key: 'emailNotif', label: t('Email notifications') },
+  { key: 'smsNotif', label: t('SMS notifications') },
+  { key: 'marketingNotif', label: t('Marketing emails') },
+])
+
+const progress = computed(() => ((currentStep.value + 1) / steps.value.length) * 100)
 const isFirstStep = computed(() => currentStep.value === 0)
-const isLastStep = computed(() => currentStep.value === steps.length - 1)
-const currentStepConfig = computed(() => steps[currentStep.value])
+const isLastStep = computed(() => currentStep.value === steps.value.length - 1)
+const currentStepConfig = computed(() => steps.value[currentStep.value])
 
 const canProceed = computed(() => {
   if (currentStep.value === 0) {
@@ -45,7 +54,7 @@ const canProceed = computed(() => {
 })
 
 function isStepDisabled(index: number) {
-  return steps[index]?.disabled ?? false
+  return steps.value[index]?.disabled ?? false
 }
 
 function isStepAccessible(index: number) {
@@ -117,13 +126,13 @@ function getStepIndicatorClasses(index: number) {
       <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <CheckCircle class="w-8 h-8 text-emerald-600" />
       </div>
-      <h3 class="text-xl font-bold text-zinc-900 mb-2">Registration Complete!</h3>
-      <p class="text-zinc-500 mb-6">Your account has been successfully created.</p>
+      <h3 class="text-xl font-bold text-zinc-900 mb-2">{{ t('Registration Complete!') }}</h3>
+      <p class="text-zinc-500 mb-6">{{ t('Your account has been successfully created.') }}</p>
       <button
         class="px-5 py-2.5 bg-zinc-900 text-white rounded-lg font-medium hover:bg-zinc-800 transition-all"
         @click="handleReset"
       >
-        Start Over
+        {{ t('Start Over') }}
       </button>
     </div>
   </div>
@@ -181,7 +190,7 @@ function getStepIndicatorClasses(index: number) {
       <div class="hidden lg:flex w-64 bg-zinc-50 border-r border-zinc-100 flex-col">
         <div class="p-5">
           <h2 class="text-sm font-semibold text-zinc-900 mb-4 uppercase tracking-wide">
-            Registration
+            {{ t('Registration') }}
           </h2>
 
           <nav class="space-y-1">
@@ -209,7 +218,7 @@ function getStepIndicatorClasses(index: number) {
                 </div>
                 <div class="text-sm font-medium truncate">
                   {{ step.title }}
-                  <span v-if="step.optional" class="text-[10px] font-normal ml-1 opacity-60">(Optional)</span>
+                  <span v-if="step.optional" class="text-[10px] font-normal ml-1 opacity-60">({{ t('Optional') }})</span>
                 </div>
               </div>
             </button>
@@ -219,7 +228,7 @@ function getStepIndicatorClasses(index: number) {
         <!-- Progress indicator -->
         <div class="mt-auto p-5 border-t border-zinc-100">
           <div class="flex items-center justify-between text-xs text-zinc-500 mb-2">
-            <span>Progress</span>
+            <span>{{ t('Progress') }}</span>
             <span>{{ Math.round(progress) }}%</span>
           </div>
           <div class="w-full bg-zinc-200 rounded-full h-1.5">
@@ -237,10 +246,10 @@ function getStepIndicatorClasses(index: number) {
           <div class="mb-6">
             <h3 class="text-xl font-bold text-zinc-900">{{ currentStepConfig?.title }}</h3>
             <p class="text-sm text-zinc-500 mt-1">
-              <template v-if="currentStep === 0">Enter your personal information to get started.</template>
-              <template v-else-if="currentStep === 1">Tell us about your company and role.</template>
-              <template v-else-if="currentStep === 2">Customize your notification preferences.</template>
-              <template v-else-if="currentStep === 3">Review your information before submitting.</template>
+              <template v-if="currentStep === 0">{{ t('Enter your personal information to get started.') }}</template>
+              <template v-else-if="currentStep === 1">{{ t('Tell us about your company and role.') }}</template>
+              <template v-else-if="currentStep === 2">{{ t('Customize your notification preferences.') }}</template>
+              <template v-else-if="currentStep === 3">{{ t('Review your information before submitting.') }}</template>
             </p>
           </div>
 
@@ -249,26 +258,26 @@ function getStepIndicatorClasses(index: number) {
             <div v-if="currentStep === 0" class="space-y-4">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-zinc-700 mb-1.5">First Name</label>
+                  <label class="block text-sm font-medium text-zinc-700 mb-1.5">{{ t('First Name') }}</label>
                   <input
                     v-model="formData.personal.firstName"
                     type="text"
                     class="w-full px-4 py-2.5 border border-zinc-200 rounded-lg focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all"
-                    placeholder="John"
+                    :placeholder="t('John')"
                   />
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-zinc-700 mb-1.5">Last Name</label>
+                  <label class="block text-sm font-medium text-zinc-700 mb-1.5">{{ t('Last Name') }}</label>
                   <input
                     v-model="formData.personal.lastName"
                     type="text"
                     class="w-full px-4 py-2.5 border border-zinc-200 rounded-lg focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all"
-                    placeholder="Doe"
+                    :placeholder="t('Doe')"
                   />
                 </div>
               </div>
               <div>
-                <label class="block text-sm font-medium text-zinc-700 mb-1.5">Email Address</label>
+                <label class="block text-sm font-medium text-zinc-700 mb-1.5">{{ t('Email Address') }}</label>
                 <input
                   v-model="formData.personal.email"
                   type="email"
@@ -281,31 +290,31 @@ function getStepIndicatorClasses(index: number) {
             <!-- Step 2: Account Details -->
             <div v-else-if="currentStep === 1" class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-zinc-700 mb-1.5">Company Name</label>
+                <label class="block text-sm font-medium text-zinc-700 mb-1.5">{{ t('Company Name') }}</label>
                 <input
                   v-model="formData.account.company"
                   type="text"
                   class="w-full px-4 py-2.5 border border-zinc-200 rounded-lg focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all"
-                  placeholder="Acme Inc."
+                  :placeholder="t('Acme Inc.')"
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-zinc-700 mb-1.5">Role</label>
+                <label class="block text-sm font-medium text-zinc-700 mb-1.5">{{ t('Role') }}</label>
                 <select
                   v-model="formData.account.role"
                   class="w-full px-4 py-2.5 border border-zinc-200 rounded-lg focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all bg-white"
                 >
-                  <option value="">Select a role...</option>
-                  <option value="developer">Developer</option>
-                  <option value="designer">Designer</option>
-                  <option value="manager">Manager</option>
-                  <option value="other">Other</option>
+                  <option value="">{{ t('Select a role...') }}</option>
+                  <option value="developer">{{ t('Developer') }}</option>
+                  <option value="designer">{{ t('Designer') }}</option>
+                  <option value="manager">{{ t('Manager') }}</option>
+                  <option value="other">{{ t('Other') }}</option>
                 </select>
               </div>
               <div class="p-3 bg-blue-50 border border-blue-100 rounded-lg flex items-start gap-2">
                 <Info class="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
                 <p class="text-sm text-blue-700">
-                  <span class="font-medium">Optional step</span> — Skip if no changes needed
+                  <span class="font-medium">{{ t('Optional step') }}</span> — {{ t('Skip if no changes needed') }}
                 </p>
               </div>
             </div>
@@ -313,14 +322,10 @@ function getStepIndicatorClasses(index: number) {
             <!-- Step 3: Preferences -->
             <div v-else-if="currentStep === 2" class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-zinc-700 mb-3">Notification Preferences</label>
+                <label class="block text-sm font-medium text-zinc-700 mb-3">{{ t('Notification Preferences') }}</label>
                 <div class="space-y-2">
                   <label
-                    v-for="item in [
-                      { key: 'emailNotif', label: 'Email notifications' },
-                      { key: 'smsNotif', label: 'SMS notifications' },
-                      { key: 'marketingNotif', label: 'Marketing emails' },
-                    ]" :key="item.key" class="flex items-center gap-3 cursor-pointer group"
+                    v-for="item in notificationOptions" :key="item.key" class="flex items-center gap-3 cursor-pointer group"
                   >
                     <div class="relative">
                       <input
@@ -337,16 +342,16 @@ function getStepIndicatorClasses(index: number) {
                 </div>
               </div>
               <div>
-                <label class="block text-sm font-medium text-zinc-700 mb-1.5">Timezone</label>
+                <label class="block text-sm font-medium text-zinc-700 mb-1.5">{{ t('Timezone') }}</label>
                 <select
                   v-model="formData.preferences.timezone"
                   class="w-full px-4 py-2.5 border border-zinc-200 rounded-lg focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none transition-all bg-white"
                 >
-                  <option value="">Select timezone...</option>
+                  <option value="">{{ t('Select timezone...') }}</option>
                   <option value="utc">UTC</option>
-                  <option value="est">Eastern Time (EST)</option>
-                  <option value="pst">Pacific Time (PST)</option>
-                  <option value="cet">Central European Time (CET)</option>
+                  <option value="est">{{ t('Eastern Time (EST)') }}</option>
+                  <option value="pst">{{ t('Pacific Time (PST)') }}</option>
+                  <option value="cet">{{ t('Central European Time (CET)') }}</option>
                 </select>
               </div>
             </div>
@@ -357,15 +362,15 @@ function getStepIndicatorClasses(index: number) {
                 <div class="p-4 bg-zinc-50 rounded-lg border border-zinc-100">
                   <div class="flex items-center gap-2 mb-3">
                     <User class="w-4 h-4 text-zinc-400" />
-                    <h4 class="font-medium text-zinc-900">Personal Info</h4>
+                    <h4 class="font-medium text-zinc-900">{{ t('Personal Info') }}</h4>
                   </div>
                   <dl class="space-y-1.5 text-sm">
                     <div class="flex justify-between">
-                      <dt class="text-zinc-500">Name</dt>
+                      <dt class="text-zinc-500">{{ t('Name') }}</dt>
                       <dd class="text-zinc-900 font-medium">{{ formData.personal?.firstName || '—' }} {{ formData.personal?.lastName || '' }}</dd>
                     </div>
                     <div class="flex justify-between">
-                      <dt class="text-zinc-500">Email</dt>
+                      <dt class="text-zinc-500">{{ t('Email') }}</dt>
                       <dd class="text-zinc-900 font-medium">{{ formData.personal?.email || '—' }}</dd>
                     </div>
                   </dl>
@@ -373,15 +378,15 @@ function getStepIndicatorClasses(index: number) {
                 <div class="p-4 bg-zinc-50 rounded-lg border border-zinc-100">
                   <div class="flex items-center gap-2 mb-3">
                     <FileText class="w-4 h-4 text-zinc-400" />
-                    <h4 class="font-medium text-zinc-900">Account Details</h4>
+                    <h4 class="font-medium text-zinc-900">{{ t('Account Details') }}</h4>
                   </div>
                   <dl class="space-y-1.5 text-sm">
                     <div class="flex justify-between">
-                      <dt class="text-zinc-500">Company</dt>
+                      <dt class="text-zinc-500">{{ t('Company') }}</dt>
                       <dd class="text-zinc-900 font-medium">{{ formData.account?.company || '—' }}</dd>
                     </div>
                     <div class="flex justify-between">
-                      <dt class="text-zinc-500">Role</dt>
+                      <dt class="text-zinc-500">{{ t('Role') }}</dt>
                       <dd class="text-zinc-900 font-medium capitalize">{{ formData.account?.role || '—' }}</dd>
                     </div>
                   </dl>
@@ -390,14 +395,14 @@ function getStepIndicatorClasses(index: number) {
               <div class="p-4 bg-zinc-50 rounded-lg border border-zinc-100">
                 <div class="flex items-center gap-2 mb-3">
                   <Settings class="w-4 h-4 text-zinc-400" />
-                  <h4 class="font-medium text-zinc-900">Preferences</h4>
+                  <h4 class="font-medium text-zinc-900">{{ t('Preferences') }}</h4>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                  <span v-if="formData.preferences?.emailNotif" class="px-2.5 py-1 bg-zinc-200 text-zinc-700 text-xs font-medium rounded-full">Email notifications</span>
-                  <span v-if="formData.preferences?.smsNotif" class="px-2.5 py-1 bg-zinc-200 text-zinc-700 text-xs font-medium rounded-full">SMS notifications</span>
-                  <span v-if="formData.preferences?.marketingNotif" class="px-2.5 py-1 bg-zinc-200 text-zinc-700 text-xs font-medium rounded-full">Marketing emails</span>
+                  <span v-if="formData.preferences?.emailNotif" class="px-2.5 py-1 bg-zinc-200 text-zinc-700 text-xs font-medium rounded-full">{{ t('Email notifications') }}</span>
+                  <span v-if="formData.preferences?.smsNotif" class="px-2.5 py-1 bg-zinc-200 text-zinc-700 text-xs font-medium rounded-full">{{ t('SMS notifications') }}</span>
+                  <span v-if="formData.preferences?.marketingNotif" class="px-2.5 py-1 bg-zinc-200 text-zinc-700 text-xs font-medium rounded-full">{{ t('Marketing emails') }}</span>
                   <span v-if="formData.preferences?.timezone" class="px-2.5 py-1 bg-zinc-200 text-zinc-700 text-xs font-medium rounded-full uppercase">{{ formData.preferences.timezone }}</span>
-                  <span v-if="!formData.preferences?.emailNotif && !formData.preferences?.smsNotif && !formData.preferences?.marketingNotif && !formData.preferences?.timezone" class="text-sm text-zinc-400">No preferences set</span>
+                  <span v-if="!formData.preferences?.emailNotif && !formData.preferences?.smsNotif && !formData.preferences?.marketingNotif && !formData.preferences?.timezone" class="text-sm text-zinc-400">{{ t('No preferences set') }}</span>
                 </div>
               </div>
             </div>
@@ -413,7 +418,7 @@ function getStepIndicatorClasses(index: number) {
             @click="handleBack"
           >
             <ChevronLeft class="w-4 h-4" />
-            Back
+            {{ t('Back') }}
           </button>
           <button
             :disabled="!canProceed"
@@ -421,7 +426,7 @@ function getStepIndicatorClasses(index: number) {
                      canProceed ? 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-lg shadow-zinc-900/20' : 'bg-zinc-200 text-zinc-400 cursor-not-allowed']"
             @click="isLastStep ? handleComplete() : handleNext()"
           >
-            {{ isLastStep ? 'Complete' : 'Continue' }}
+            {{ isLastStep ? t('Complete') : t('Continue') }}
             <CheckCircle v-if="isLastStep" class="w-4 h-4" />
             <ChevronRight v-else class="w-4 h-4" />
           </button>
