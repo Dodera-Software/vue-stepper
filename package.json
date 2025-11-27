@@ -1,0 +1,24 @@
+{
+  "name": "vue-stepper",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-vue": "^10.6.1",
+    "typescript-eslint": "^8.48.0"
+  }
+}

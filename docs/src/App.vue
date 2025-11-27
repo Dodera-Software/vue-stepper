@@ -9,17 +9,19 @@ import {
   Code2, 
   Cpu, 
   CheckCircle2, 
-  Play 
+  Play,
+  History
 } from 'lucide-vue-next'
 import CodeBlock from './components/CodeBlock.vue'
 import ApiTable from './components/ApiTable.vue'
 import StepperDemo from './components/StepperDemo.vue'
+import Changelog from './components/Changelog.vue'
 import type { PropDefinition, EventDefinition, SlotDefinition } from './types'
 
 // --- Data Constants ---
 
 const usageCode = `<template>
-  <MultiStepStepper
+  <Stepper
     v-model="currentStep"
     :steps="steps"
     :can-go-next="canProceed"
@@ -50,12 +52,12 @@ const usageCode = `<template>
       <StepTwo v-else-if="stepIndex === 1" v-model="formData.details" />
       <StepThree v-else-if="stepIndex === 2" v-model="formData.review" />
     </template>
-  </MultiStepStepper>
+  </Stepper>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { MultiStepStepper } from '@doderasoftware/vue-stepper'
+import { Stepper } from '@doderasoftware/vue-stepper'
 
 const currentStep = ref(0)
 const formData = ref({ basic: {}, details: {}, review: {} })
@@ -85,6 +87,9 @@ const propsData: PropDefinition[] = [
   { name: 'nextButtonText', type: 'string', default: "'Continue'", description: 'Text for the next/continue button.' },
   { name: 'completeButtonText', type: 'string', default: "'Complete'", description: 'Text for the final step button.' },
   { name: 'showNavigation', type: 'boolean', default: 'true', description: 'Show/hide default navigation buttons.' },
+  { name: 'ui', type: 'StepperUI', default: '{}', description: 'Override default classes for the main stepper component.' },
+  { name: 'mobileHeaderUI', type: 'MobileHeaderUI', default: '{}', description: 'Override default classes for the mobile header.' },
+  { name: 'optionalNoticeUI', type: 'OptionalNoticeUI', default: '{}', description: 'Override default classes for the optional step notice.' },
 ]
 
 const eventsData: EventDefinition[] = [
@@ -109,11 +114,48 @@ const sections: Section[] = [
   { id: 'demo', title: 'Live Demo', icon: Play },
   { id: 'installation', title: 'Installation', icon: Cpu },
   { id: 'usage', title: 'Usage', icon: Code2 },
+  { id: 'customization', title: 'UI Customization', icon: Layers },
   { id: 'api', title: 'API Reference', icon: Layers },
+  { id: 'changelog', title: 'Changelog', icon: History },
 ]
 
+const uiCustomizationCode = `<template>
+  <Stepper
+    v-model="currentStep"
+    :steps="steps"
+    :ui="{
+      wrapper: 'my-custom-wrapper',
+      sidebar: 'bg-indigo-900 text-white',
+      sidebarTitle: 'text-indigo-200 font-bold',
+      stepItem: 'border-indigo-700',
+      stepItemActive: 'bg-indigo-700',
+      stepIndicator: 'bg-indigo-500 text-white',
+      stepIndicatorCompleted: 'bg-green-500',
+      content: 'bg-white shadow-xl rounded-2xl',
+      nextButton: 'bg-indigo-600 hover:bg-indigo-700 text-white',
+      prevButton: 'border-indigo-300 text-indigo-600',
+    }"
+    :mobile-header-ui="{
+      wrapper: 'bg-indigo-900',
+      stepCounter: 'text-indigo-200',
+      dropdownButton: 'bg-indigo-800',
+    }"
+    :optional-notice-ui="{
+      wrapper: 'bg-indigo-50 border-indigo-200',
+      text: 'text-indigo-600',
+    }"
+  >
+    <!-- Your step content -->
+  </Stepper>
+</template>
+
+<script setup lang="ts">
+import { Stepper } from '@doderasoftware/vue-stepper'
+import type { StepperUI, MobileHeaderUI, OptionalNoticeUI } from '@doderasoftware/vue-stepper'
+<\/script>`
+
 const demoCode = `<template>
-  <MultiStepStepper
+  <Stepper
     v-model="currentStep"
     :steps="steps"
     :can-go-next="canProceed"
@@ -200,12 +242,12 @@ const demoCode = `<template>
         </div>
       </div>
     </template>
-  </MultiStepStepper>
+  </Stepper>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { MultiStepStepper } from '@doderasoftware/vue-stepper'
+import { Stepper } from '@doderasoftware/vue-stepper'
 import type { StepConfig } from '@doderasoftware/vue-stepper'
 
 const currentStep = ref(0)
@@ -277,10 +319,9 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen bg-white text-zinc-900 flex flex-col md:flex-row">
-
     <!-- Mobile Header -->
     <div class="md:hidden sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
-      <span class="font-bold text-lg tracking-tight">MultiStepStepper</span>
+      <span class="font-bold text-lg tracking-tight">Stepper</span>
       <button @click="mobileMenuOpen = !mobileMenuOpen">
         <X v-if="mobileMenuOpen" />
         <Menu v-else />
@@ -294,19 +335,15 @@ onMounted(() => {
     >
       <div class="h-full flex flex-col">
         <div class="p-8 border-b border-zinc-200/50">
-          <h1 class="text-xl font-bold tracking-tight text-zinc-900 flex items-center gap-2">
-            <Layers class="text-zinc-400" />
-            MultiStepStepper
-          </h1>
-          <p class="text-xs text-zinc-500 mt-2 font-mono">v1.0.0</p>
+          <p class="text-xs text-zinc-500 mt-2 font-mono">v1.0.1</p>
         </div>
 
         <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
           <button
             v-for="section in sections"
             :key="section.id"
-            @click="scrollToSection(section.id)"
             class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-lg transition-all text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-900"
+            @click="scrollToSection(section.id)"
           >
             <component :is="section.icon" :size="18" />
             {{ section.title }}
@@ -325,7 +362,6 @@ onMounted(() => {
     <!-- Main Content -->
     <main ref="mainRef" class="flex-1 min-w-0 bg-white md:h-screen md:overflow-y-auto">
       <div class="max-w-5xl mx-auto px-6 py-12 md:py-20 space-y-24">
-
         <!-- Introduction -->
         <section id="introduction" class="space-y-6">
           <div class="space-y-2">
@@ -370,10 +406,10 @@ onMounted(() => {
           </div>
 
           <div class="flex gap-4 pt-4">
-            <button @click="scrollToSection('demo')" class="px-6 py-3 bg-zinc-900 text-white rounded-lg font-medium hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-900/20">
+            <button class="px-6 py-3 bg-zinc-900 text-white rounded-lg font-medium hover:bg-zinc-800 transition-all shadow-lg shadow-zinc-900/20" @click="scrollToSection('demo')">
               Try Live Demo
             </button>
-            <button @click="scrollToSection('installation')" class="px-6 py-3 bg-white text-zinc-900 border border-zinc-200 rounded-lg font-medium hover:bg-zinc-50 transition-all">
+            <button class="px-6 py-3 bg-white text-zinc-900 border border-zinc-200 rounded-lg font-medium hover:bg-zinc-50 transition-all" @click="scrollToSection('installation')">
               Get Started
             </button>
           </div>
@@ -386,14 +422,14 @@ onMounted(() => {
               <Play class="text-zinc-400" /> Live Demo
             </h2>
             <p class="text-zinc-500 max-w-2xl">
-              Experience the MultiStepStepper component in action. This interactive demo showcases the sidebar navigation,
+              Experience the Stepper component in action. This interactive demo showcases the sidebar navigation,
               step progression, validation, and responsive design. Try resizing your browser to see the mobile layout.
             </p>
           </div>
 
           <div class="relative">
             <!-- Decorative background -->
-            <div class="absolute inset-0 bg-gradient-to-br from-zinc-100/50 via-transparent to-zinc-100/30 rounded-3xl -m-4 p-4" />
+            <div class="absolute inset-0 bg-gradient-to-br from-zinc-100/50 via-transparent to-zinc-100/30 rounded-3xl -m-4 p-4"></div>
 
             <div class="relative">
               <!-- Demo Content -->
@@ -409,20 +445,20 @@ onMounted(() => {
                 </span>
                 <div class="inline-flex items-center bg-zinc-100 rounded-lg p-1 shadow-sm border border-zinc-200">
                   <button
-                    @click="demoView = 'component'"
                     class="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all"
                     :class="demoView === 'component' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'"
+                    @click="demoView = 'component'"
                   >
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                      <circle cx="12" cy="12" r="3"></circle>
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
                     </svg>
                     Preview
                   </button>
                   <button
-                    @click="demoView = 'code'"
                     class="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all"
                     :class="demoView === 'code' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-700'"
+                    @click="demoView = 'code'"
                   >
                     <Code2 :size="16" />
                     Code
@@ -484,6 +520,42 @@ onMounted(() => {
           <CodeBlock language="vue" file-name="RegistrationForm.vue" :code="usageCode" />
         </section>
 
+        <!-- UI Customization -->
+        <section id="customization" class="scroll-mt-20 space-y-8">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight mb-2 flex items-center gap-2">
+              <Layers class="text-zinc-400" /> UI Customization
+            </h2>
+            <p class="text-zinc-500 max-w-2xl">
+              Override any default class using the <code class="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono text-xs">:ui</code> prop.
+              All keys follow BEM naming convention (<code class="px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono text-xs">stepper__element--modifier</code>).
+            </p>
+          </div>
+
+          <CodeBlock language="vue" file-name="CustomizedStepper.vue" :code="uiCustomizationCode" />
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
+              <h4 class="font-semibold text-zinc-900 mb-2">:ui</h4>
+              <p class="text-sm text-zinc-500">Customize main stepper wrapper, sidebar, steps, content area, navigation buttons, and progress bar.</p>
+            </div>
+            <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
+              <h4 class="font-semibold text-zinc-900 mb-2">:mobileHeaderUI</h4>
+              <p class="text-sm text-zinc-500">Customize mobile header wrapper, step counter, dropdown button, and menu items.</p>
+            </div>
+            <div class="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
+              <h4 class="font-semibold text-zinc-900 mb-2">:optionalNoticeUI</h4>
+              <p class="text-sm text-zinc-500">Customize the optional step notice wrapper, icon, and text styling.</p>
+            </div>
+          </div>
+
+          <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+            <strong>Tip:</strong> All UI interfaces are fully typed. Import <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">StepperUI</code>,
+            <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">MobileHeaderUI</code>, and
+            <code class="px-1.5 py-0.5 rounded bg-blue-100 font-mono text-xs">OptionalNoticeUI</code> for type-safe customization.
+          </div>
+        </section>
+
         <!-- API -->
         <section id="api" class="scroll-mt-20 space-y-12">
           <div>
@@ -531,14 +603,39 @@ onMounted(() => {
           </div>
         </section>
 
+        <!-- Changelog -->
+        <section id="changelog" class="scroll-mt-20 space-y-6">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight mb-2 flex items-center gap-2">
+              <History class="text-zinc-400" /> Changelog
+            </h2>
+            <p class="text-zinc-500">Track all updates, new features, and improvements to the package.</p>
+          </div>
+
+          <Changelog />
+        </section>
+
         <!-- Footer -->
-        <footer class="pt-24 pb-12 border-t border-zinc-100">
-          <div class="flex flex-col md:flex-row justify-between items-center text-zinc-400 text-sm gap-4">
-            <p>&copy; {{ new Date().getFullYear() }} Dodera Software SRL.</p>
-            <div class="flex gap-6">
-              <a href="https://github.com/Dodera-Software/vue-stepper/blob/main/LICENSE" class="hover:text-zinc-900">License</a>
-              <a href="https://github.com/Dodera-Software/vue-stepper" class="hover:text-zinc-900">GitHub</a>
-              <a href="https://doderasoft.com" class="hover:text-zinc-900">Contact</a>
+        <footer class="pt-16 pb-8 border-t border-zinc-200">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <!-- Left: Copyright -->
+            <p class="text-zinc-500 text-sm">
+              &copy; {{ new Date().getFullYear() }} <a href="https://doderasoft.com" target="_blank" rel="noopener noreferrer" class="text-zinc-700 hover:text-zinc-900 font-medium transition-colors">Dodera Software SRL</a>
+            </p>
+            
+            <!-- Right: Links -->
+            <div class="flex items-center gap-6">
+              <a href="https://www.npmjs.com/package/@doderasoftware/vue-stepper" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-zinc-900 text-sm font-medium transition-colors flex items-center gap-1.5">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331zM10.665 10H12v2.667h-1.335V10z" /></svg>
+                npm
+              </a>
+              <a href="https://github.com/Dodera-Software/vue-stepper" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-zinc-900 text-sm font-medium transition-colors flex items-center gap-1.5">
+                <Github :size="16" />
+                GitHub
+              </a>
+              <a href="https://github.com/Dodera-Software/vue-stepper/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="text-zinc-500 hover:text-zinc-900 text-sm font-medium transition-colors">
+                MIT License
+              </a>
             </div>
           </div>
         </footer>

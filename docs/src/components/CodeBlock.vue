@@ -23,7 +23,7 @@ async function highlight() {
       theme: 'github-dark',
     })
     highlightedCode.value = html
-  } catch (error) {
+  } catch {
     // Fallback for unsupported languages
     highlightedCode.value = `<pre><code>${props.code.trim()}</code></pre>`
   } finally {
@@ -43,16 +43,16 @@ async function handleCopy() {
 </script>
 
 <template>
-  <div :class="['my-6 rounded-lg border border-zinc-800 bg-[#0d1117] overflow-hidden group', props.class]">
+  <div :class="['rounded-lg border border-zinc-800 bg-[#0d1117] overflow-hidden group', props.class]">
     <div v-if="fileName" class="flex items-center justify-between px-4 py-2.5 border-b border-zinc-800 bg-[#161b22] text-xs font-mono">
       <span class="text-zinc-300">{{ fileName }}</span>
       <span class="uppercase text-zinc-500">{{ language }}</span>
     </div>
     <div class="relative">
       <button
-        @click="handleCopy"
         class="absolute right-3 top-3 p-1.5 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-zinc-700 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10"
         aria-label="Copy code"
+        @click="handleCopy"
       >
         <Check v-if="copied" :size="16" class="text-emerald-500" />
         <Copy v-else :size="16" />
@@ -62,7 +62,7 @@ async function handleCopy() {
         v-else
         class="shiki-wrapper overflow-x-auto text-sm [&_pre]:!bg-transparent [&_pre]:p-4 [&_pre]:m-0 [&_code]:font-mono [&_.line]:leading-relaxed"
         v-html="highlightedCode"
-      />
+      ></div>
     </div>
   </div>
 </template>

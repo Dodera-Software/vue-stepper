@@ -1,0 +1,110 @@
+# @doderasoftware/vue-stepper
+
+> A headless, accessible, and fully customizable multi-step stepper component for Vue 3
+
+## Package Information
+
+- **npm**: https://www.npmjs.com/package/@doderasoftware/vue-stepper
+- **GitHub**: https://github.com/Dodera-Software/vue-stepper
+- **Documentation**: https://vue-stepper.doderasoft.com/
+- **Version**: 1.0.1
+- **License**: MIT
+- **Author**: Dodera Software SRL (https://doderasoft.com)
+
+## Installation
+
+```bash
+npm install @doderasoftware/vue-stepper
+```
+
+## Quick Start
+
+```vue
+<template>
+  <Stepper
+    v-model="currentStep"
+    :steps="steps"
+    :can-go-next="canProceed"
+    @complete="handleComplete"
+  >
+    <template #default="{ currentStep }">
+      <!-- Your step content here -->
+    </template>
+  </Stepper>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Stepper } from '@doderasoftware/vue-stepper'
+import type { StepConfig } from '@doderasoftware/vue-stepper'
+
+const currentStep = ref(0)
+const steps: StepConfig[] = [
+  { category: 'Step 1', title: 'Personal Info' },
+  { category: 'Step 2', title: 'Account Details', optional: true },
+  { category: 'Step 3', title: 'Review' },
+]
+</script>
+```
+
+## Features
+
+- ✅ Vue 3 Composition API with TypeScript
+- ✅ Responsive sidebar that collapses on mobile
+- ✅ Step locking and validation support
+- ✅ Optional steps with visual indicators
+- ✅ Progress tracking with visual progress bar
+- ✅ Full UI customization via :ui prop (50+ customizable keys)
+- ✅ Accessible and keyboard navigable
+- ✅ Zero external dependencies (except Vue)
+
+## Exports
+
+### Components
+- `Stepper` - Main stepper component
+- `StepperMobileHeader` - Mobile header component (internal)
+- `OptionalStepNotice` - Optional step notice component (internal)
+
+### Composables
+- `useMultiStep` - Headless composable for custom implementations
+
+### Types
+- `StepConfig` - Step configuration interface
+- `StepChangeEvent` - Step change event payload
+- `StepperUI` - UI customization interface for Stepper
+- `MobileHeaderUI` - UI customization interface for mobile header
+- `OptionalNoticeUI` - UI customization interface for optional notice
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| modelValue | number | 0 | Current step index (v-model) |
+| steps | StepConfig[] | required | Array of step configurations |
+| sidebarTitle | string | '' | Title above sidebar steps |
+| canGoNext | boolean | true | Whether user can proceed |
+| nextButtonText | string | 'Continue' | Next button text |
+| completeButtonText | string | 'Complete' | Complete button text |
+| showNavigation | boolean | true | Show/hide navigation buttons |
+| ui | StepperUI | {} | Override default classes |
+| mobileHeaderUI | MobileHeaderUI | {} | Override mobile header classes |
+| optionalNoticeUI | OptionalNoticeUI | {} | Override notice classes |
+
+## Events
+
+| Event | Payload | Description |
+|-------|---------|-------------|
+| update:modelValue | number | Step index changed |
+| complete | void | Last step completed |
+
+## Requirements
+
+- Vue 3.5+
+- Tailwind CSS (optional, for default styling)
+
+## Links
+
+- Documentation: https://vue-stepper.doderasoft.com/
+- npm: https://www.npmjs.com/package/@doderasoftware/vue-stepper
+- GitHub: https://github.com/Dodera-Software/vue-stepper
+- Issues: https://github.com/Dodera-Software/vue-stepper/issues

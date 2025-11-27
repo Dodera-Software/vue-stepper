@@ -1,0 +1,18 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "@doderasoftware/vue-stepper",
+    "name_for_model": "vue_stepper",
+    "description_for_human": "A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows.",
+    "description_for_model": "Vue Stepper is an npm package (@doderasoftware/vue-stepper) that provides a multi-step wizard/stepper component for Vue 3 applications. It features TypeScript support, responsive design with mobile header, step validation, optional steps, progress tracking, and full UI customization via the :ui prop. Install via: npm install @doderasoftware/vue-stepper. Main component is 'Stepper' which accepts steps array, v-model for current step, and emits 'complete' event. Documentation at https://vue-stepper.doderasoft.com/, source at https://github.com/Dodera-Software/vue-stepper",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "https://vue-stepper.doderasoft.com/openapi.json",
+        "is_user_authenticated": false
+    },
+    "logo_url": "https://vue-stepper.doderasoft.com/logo-dodera.svg",
+    "contact_email": "contact@doderasoft.com",
+    "legal_info_url": "https://github.com/Dodera-Software/vue-stepper/blob/main/LICENSE"
+}

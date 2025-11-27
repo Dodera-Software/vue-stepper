@@ -1,0 +1,85 @@
+{
+    "versions": [
+        {
+            "version": "1.0.1",
+            "date": "2025-11-27",
+            "type": "minor",
+            "summary": "UI Customization System & Component Renaming",
+            "changes": [
+                {
+                    "type": "feature",
+                    "title": "UI Customization Props",
+                    "description": "Added :ui, :mobileHeaderUI, and :optionalNoticeUI props for complete styling control with 50+ customizable keys following BEM naming convention."
+                },
+                {
+                    "type": "feature",
+                    "title": "TypeScript Interfaces",
+                    "description": "Exported StepperUI, MobileHeaderUI, and OptionalNoticeUI interfaces for type-safe customization."
+                },
+                {
+                    "type": "change",
+                    "title": "Component Renaming",
+                    "description": "Renamed MultiStepStepper to Stepper and MultiStepMobileHeader to StepperMobileHeader for simpler imports."
+                },
+                {
+                    "type": "change",
+                    "title": "Backward Compatibility",
+                    "description": "Legacy component names (MultiStepStepper, MultiStepMobileHeader) are still exported as aliases."
+                },
+                {
+                    "type": "docs",
+                    "title": "Documentation Site",
+                    "description": "Added comprehensive documentation at vue-stepper.doderasoft.com with live demo, API reference, and UI customization guide."
+                },
+                {
+                    "type": "docs",
+                    "title": "SEO & AI Discoverability",
+                    "description": "Added structured metadata, sitemap, robots.txt, and llms.txt for better search engine and AI assistant discoverability."
+                }
+            ]
+        },
+        {
+            "version": "1.0.0",
+            "date": "2025-11-26",
+            "type": "major",
+            "summary": "Initial Release",
+            "changes": [
+                {
+                    "type": "feature",
+                    "title": "Stepper Component",
+                    "description": "Full-featured multi-step wizard component with sidebar navigation, step progression, and validation support."
+                },
+                {
+                    "type": "feature",
+                    "title": "Mobile Responsive",
+                    "description": "Built-in mobile header with dropdown navigation that automatically activates on smaller screens."
+                },
+                {
+                    "type": "feature",
+                    "title": "Optional Steps",
+                    "description": "Support for marking steps as optional with visual indicators and skip functionality."
+                },
+                {
+                    "type": "feature",
+                    "title": "Step Locking",
+                    "description": "Ability to disable specific steps and control navigation flow with canGoNext prop."
+                },
+                {
+                    "type": "feature",
+                    "title": "useMultiStep Composable",
+                    "description": "Extracted composable for building custom stepper UIs with full control over step logic."
+                },
+                {
+                    "type": "feature",
+                    "title": "TypeScript Support",
+                    "description": "Full TypeScript support with exported types for StepConfig and StepChangeEvent."
+                },
+                {
+                    "type": "feature",
+                    "title": "Slot-based Content",
+                    "description": "Flexible slot system with default, header, and title slots for custom content injection."
+                }
+            ]
+        }
+    ]
+}

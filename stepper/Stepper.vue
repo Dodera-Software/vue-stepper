@@ -1,7 +1,7 @@
 <template>
   <div :class="[defaultClasses.root, ui.root]">
     <!-- Mobile Header -->
-    <MultiStepMobileHeader
+    <StepperMobileHeader
       v-if="showMobileHeader"
       :title="currentStepConfig?.title || sidebarTitle"
       :progress="progress"
@@ -17,7 +17,7 @@
       <template #mobile-step="slotProps">
         <slot name="mobile-step" v-bind="slotProps"></slot>
       </template>
-    </MultiStepMobileHeader>
+    </StepperMobileHeader>
 
     <!-- Desktop Sidebar -->
     <div v-if="showSidebar" :class="[defaultClasses.sidebar, ui.sidebar]">
@@ -152,7 +152,7 @@
 
 <script setup lang="ts">
 import { computed, toRef, watch } from 'vue'
-import MultiStepMobileHeader from './MultiStepMobileHeader.vue'
+import StepperMobileHeader from './StepperMobileHeader.vue'
 import OptionalStepNotice from './OptionalStepNotice.vue'
 import { type StepChangeEvent, type StepConfig, useMultiStep } from './useMultiStep'
 import type { StepperUI, MobileHeaderUI, OptionalNoticeUI } from './types'

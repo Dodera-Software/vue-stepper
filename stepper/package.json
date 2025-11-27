@@ -1,8 +1,12 @@
 {
   "name": "@doderasoftware/vue-stepper",
-  "version": "1.0.0",
-  "description": "A headless, accessible, and customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease.",
-  "author": "Dodera Software SRL",
+  "version": "1.0.1",
+  "description": "A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease. Features TypeScript support, responsive mobile design, step validation, optional steps, progress tracking, and a powerful :ui prop system for complete style control.",
+  "author": {
+    "name": "Dodera Software SRL",
+    "url": "https://doderasoft.com",
+    "email": "contact@doderasoft.com"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -11,20 +15,40 @@
   "bugs": {
     "url": "https://github.com/Dodera-Software/vue-stepper/issues"
   },
-  "homepage": "https://github.com/Dodera-Software/vue-stepper#readme",
+  "homepage": "https://vue-stepper.doderasoft.com",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/Dodera-Software"
+  },
   "keywords": [
     "vue",
     "vue3",
+    "vue-stepper",
     "stepper",
     "multi-step",
+    "multistep",
     "wizard",
     "form",
     "form-wizard",
     "step-by-step",
     "onboarding",
+    "checkout",
+    "flow",
+    "workflow",
+    "progress",
     "typescript",
+    "ts",
     "component",
-    "headless"
+    "headless",
+    "accessible",
+    "a11y",
+    "responsive",
+    "mobile",
+    "customizable",
+    "tailwind",
+    "composition-api",
+    "vue-component",
+    "ui-component"
   ],
   "type": "module",
   "main": "./dist/vue-stepper.umd.cjs",

@@ -1,41 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Primary Meta Tags -->
-  <title>MultiStepStepper | Vue 3 Stepper Component - Dodera Software</title>
-  <meta name="title" content="MultiStepStepper | Vue 3 Stepper Component - Dodera Software" />
+  <title>Vue 3 Multi-Step Wizard Component</title>
+  <meta name="title" content="Vue 3 Multi-Step Wizard Component" />
   <meta name="description"
-    content="A headless, accessible, and customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease. By Dodera Software SRL." />
+    content="A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with TypeScript support, responsive design, and :ui prop customization. npm install @doderasoftware/vue-stepper" />
   <meta name="keywords"
-    content="vue stepper, vue 3 stepper, multi-step form, vue wizard, vue form wizard, stepper component, vue 3 component, headless stepper, accessible stepper, dodera software" />
+    content="vue stepper, vue 3 stepper, vue stepper component, multi-step form vue, vue wizard, vue form wizard, vue 3 wizard, stepper component, headless stepper, accessible stepper, vue typescript stepper, vue composition api stepper, @doderasoftware/vue-stepper, doderasoftware, vue multi step, vue onboarding, vue flow, step by step vue" />
   <meta name="author" content="Dodera Software SRL" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://doderasoftware.github.io/vue-stepper/" />
+  <meta name="publisher" content="Dodera Software SRL" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="bingbot" content="index, follow" />
+  <link rel="canonical" href="https://vue-stepper.doderasoft.com/" />
+
+  <!-- Alternate Links for SEO -->
+  <link rel="alternate" hreflang="en" href="https://vue-stepper.doderasoft.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://vue-stepper.doderasoft.com/" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://doderasoftware.github.io/vue-stepper/" />
-  <meta property="og:title" content="MultiStepStepper | Vue 3 Stepper Component" />
+  <meta property="og:url" content="https://vue-stepper.doderasoft.com/" />
+  <meta property="og:title" content="@doderasoftware/vue-stepper | Vue 3 Multi-Step Wizard Component" />
   <meta property="og:description"
-    content="A headless, accessible, and customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease." />
-  <meta property="og:site_name" content="Dodera Software" />
+    content="A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease. TypeScript support included." />
+  <meta property="og:site_name" content="Vue Stepper by Dodera Software" />
+  <meta property="og:image" content="https://vue-stepper.doderasoft.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Vue Stepper - Multi-step wizard component for Vue 3" />
+  <meta property="og:locale" content="en_US" />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://doderasoftware.github.io/vue-stepper/" />
-  <meta property="twitter:title" content="MultiStepStepper | Vue 3 Stepper Component" />
-  <meta property="twitter:description"
-    content="A headless, accessible, and customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://vue-stepper.doderasoft.com/" />
+  <meta name="twitter:title" content="@doderasoftware/vue-stepper | Vue 3 Multi-Step Wizard Component" />
+  <meta name="twitter:description"
+    content="A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease." />
+  <meta name="twitter:image" content="https://vue-stepper.doderasoft.com/og-image.png" />
+  <meta name="twitter:image:alt" content="Vue Stepper - Multi-step wizard component for Vue 3" />
+  <meta name="twitter:creator" content="@doderasoft" />
+  <meta name="twitter:site" content="@doderasoft" />
 
-  <!-- Additional SEO -->
+  <!-- Additional SEO & PWA -->
   <meta name="theme-color" content="#18181b" />
-  <meta name="application-name" content="MultiStepStepper Docs" />
+  <meta name="application-name" content="Vue Stepper Docs" />
+  <meta name="apple-mobile-web-app-title" content="Vue Stepper" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
 
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/svg+xml" href="/logo-dodera.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.npmjs.com" />
+  <link rel="dns-prefetch" href="https://github.com" />
+
+  <!-- JSON-LD Structured Data for AI & Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "@doderasoftware/vue-stepper",
+    "alternateName": ["Vue Stepper", "vue-stepper", "Stepper"],
+    "description": "A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with TypeScript support, responsive design, and :ui prop customization.",
+    "url": "https://vue-stepper.doderasoft.com/",
+    "codeRepository": "https://github.com/Dodera-Software/vue-stepper",
+    "programmingLanguage": ["TypeScript", "Vue", "JavaScript"],
+    "runtimePlatform": "Vue 3",
+    "targetProduct": {
+      "@type": "SoftwareApplication",
+      "name": "Vue.js",
+      "applicationCategory": "WebApplication",
+      "operatingSystem": "Cross-platform"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Dodera Software SRL",
+      "url": "https://doderasoft.com",
+      "logo": "https://vue-stepper.doderasoft.com/logo-dodera.svg"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Dodera Software SRL",
+      "url": "https://doderasoft.com"
+    },
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": ["vue", "vue3", "stepper", "wizard", "multi-step", "form", "typescript", "component", "accessible", "headless"],
+    "datePublished": "2024-01-01",
+    "dateModified": "2025-11-27",
+    "version": "1.0.1",
+    "softwareRequirements": "Vue 3.5+",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- Additional Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Vue Stepper Documentation",
+    "url": "https://vue-stepper.doderasoft.com/",
+    "description": "Official documentation for @doderasoftware/vue-stepper - A Vue 3 multi-step wizard component",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Dodera Software SRL",
+      "url": "https://doderasoft.com"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://vue-stepper.doderasoft.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://vue-stepper.doderasoft.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Documentation",
+        "item": "https://vue-stepper.doderasoft.com/#api"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "GitHub",
+        "item": "https://github.com/Dodera-Software/vue-stepper"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "npm",
+        "item": "https://www.npmjs.com/package/@doderasoftware/vue-stepper"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: FAQPage for AI -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I install @doderasoftware/vue-stepper?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Install via npm: npm install @doderasoftware/vue-stepper. The package requires Vue 3.5+ and optionally Tailwind CSS for default styling."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Vue Stepper used for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vue Stepper is a multi-step wizard component for Vue 3. It's used to build complex forms, onboarding flows, checkout processes, and any step-by-step user interface. It features responsive design, TypeScript support, and full UI customization via the :ui prop."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Vue Stepper accessible?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Vue Stepper is built with accessibility in mind. It follows WAI-ARIA guidelines and provides keyboard navigation support for multi-step interfaces."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I customize the styling of Vue Stepper?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Vue Stepper offers full UI customization through the :ui, :mobileHeaderUI, and :optionalNoticeUI props. You can override any default class using these typed interfaces (StepperUI, MobileHeaderUI, OptionalNoticeUI)."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body>

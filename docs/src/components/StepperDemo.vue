@@ -120,8 +120,8 @@ function getStepIndicatorClasses(index: number) {
       <h3 class="text-xl font-bold text-zinc-900 mb-2">Registration Complete!</h3>
       <p class="text-zinc-500 mb-6">Your account has been successfully created.</p>
       <button
-        @click="handleReset"
         class="px-5 py-2.5 bg-zinc-900 text-white rounded-lg font-medium hover:bg-zinc-800 transition-all"
+        @click="handleReset"
       >
         Start Over
       </button>
@@ -130,7 +130,6 @@ function getStepIndicatorClasses(index: number) {
 
   <div v-else class="bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden">
     <div class="flex flex-col lg:flex-row min-h-[500px]">
-
       <!-- Mobile Header -->
       <div class="lg:hidden bg-zinc-50 border-b border-zinc-200">
         <div class="flex items-center justify-between px-4 py-3">
@@ -143,7 +142,7 @@ function getStepIndicatorClasses(index: number) {
                 <div
                   class="bg-zinc-900 h-1.5 rounded-full transition-all duration-300"
                   :style="{ width: `${progress}%` }"
-                />
+                ></div>
               </div>
               <span class="text-xs text-zinc-500 whitespace-nowrap">
                 {{ currentStep + 1 }}/{{ steps.length }}
@@ -201,9 +200,11 @@ function getStepIndicatorClasses(index: number) {
               </div>
 
               <div class="flex-1 min-w-0">
-                <div :class="['text-[10px] uppercase tracking-wide font-medium mb-0.5', 
-                  index === currentStep ? 'text-zinc-300' : 
-                  index < currentStep ? 'text-zinc-400' : 'text-zinc-400']">
+                <div
+                  :class="['text-[10px] uppercase tracking-wide font-medium mb-0.5', 
+                           index === currentStep ? 'text-zinc-300' : 
+                           index < currentStep ? 'text-zinc-400' : 'text-zinc-400']"
+                >
                   {{ step.category }}
                 </div>
                 <div class="text-sm font-medium truncate">
@@ -225,7 +226,7 @@ function getStepIndicatorClasses(index: number) {
             <div
               class="bg-zinc-900 h-1.5 rounded-full transition-all duration-300"
               :style="{ width: `${progress}%` }"
-            />
+            ></div>
           </div>
         </div>
       </div>
@@ -314,15 +315,17 @@ function getStepIndicatorClasses(index: number) {
               <div>
                 <label class="block text-sm font-medium text-zinc-700 mb-3">Notification Preferences</label>
                 <div class="space-y-2">
-                  <label v-for="item in [
-                    { key: 'emailNotif', label: 'Email notifications' },
-                    { key: 'smsNotif', label: 'SMS notifications' },
-                    { key: 'marketingNotif', label: 'Marketing emails' },
-                  ]" :key="item.key" class="flex items-center gap-3 cursor-pointer group">
+                  <label
+                    v-for="item in [
+                      { key: 'emailNotif', label: 'Email notifications' },
+                      { key: 'smsNotif', label: 'SMS notifications' },
+                      { key: 'marketingNotif', label: 'Marketing emails' },
+                    ]" :key="item.key" class="flex items-center gap-3 cursor-pointer group"
+                  >
                     <div class="relative">
                       <input
-                        type="checkbox"
                         v-model="(formData.preferences as any)[item.key]"
+                        type="checkbox"
                         class="sr-only peer"
                       />
                       <div class="w-5 h-5 border-2 border-zinc-300 rounded peer-checked:bg-zinc-900 peer-checked:border-zinc-900 transition-all flex items-center justify-center">
@@ -404,19 +407,19 @@ function getStepIndicatorClasses(index: number) {
         <!-- Navigation -->
         <div class="flex items-center justify-between gap-3 p-5 border-t border-zinc-100 bg-zinc-50/50">
           <button
-            @click="handleBack"
             :disabled="isFirstStep"
             :class="['flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all',
-              isFirstStep ? 'text-zinc-300 cursor-not-allowed' : 'text-zinc-600 hover:bg-zinc-100']"
+                     isFirstStep ? 'text-zinc-300 cursor-not-allowed' : 'text-zinc-600 hover:bg-zinc-100']"
+            @click="handleBack"
           >
             <ChevronLeft class="w-4 h-4" />
             Back
           </button>
           <button
-            @click="isLastStep ? handleComplete() : handleNext()"
             :disabled="!canProceed"
             :class="['flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium transition-all',
-              canProceed ? 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-lg shadow-zinc-900/20' : 'bg-zinc-200 text-zinc-400 cursor-not-allowed']"
+                     canProceed ? 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-lg shadow-zinc-900/20' : 'bg-zinc-200 text-zinc-400 cursor-not-allowed']"
+            @click="isLastStep ? handleComplete() : handleNext()"
           >
             {{ isLastStep ? 'Complete' : 'Continue' }}
             <CheckCircle v-if="isLastStep" class="w-4 h-4" />
