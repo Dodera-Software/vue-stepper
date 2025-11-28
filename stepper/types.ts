@@ -87,6 +87,12 @@ export interface StepperUI {
     mainContent?: string
     /** Content wrapper div */
     contentWrapper?: string
+    /** Step header container (title + description) */
+    stepHeader?: string
+    /** Step header title */
+    stepHeaderTitle?: string
+    /** Step header description */
+    stepHeaderDescription?: string
     /** Content card */
     card?: string
 

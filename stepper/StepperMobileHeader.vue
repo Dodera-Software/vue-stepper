@@ -154,179 +154,102 @@ function getIndicatorClasses(index: number) {
 </script>
 
 <style>
-/* Mobile Header - Only visible on smaller screens */
+/* Mobile Header - Tailwind CSS with Dark Mode Support
+   Dark mode uses class-based strategy (.dark class on html/body) */
 .stepper-mobile {
-  display: block;
-  background-color: #fafafa;
-  border-bottom: 1px solid #e4e4e7;
-}
-
-@media (min-width: 1024px) {
-  .stepper-mobile {
-    display: none;
-  }
+  @apply block lg:hidden bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-700;
 }
 
 .stepper-mobile__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
+  @apply flex items-center justify-between px-4 py-3;
 }
 
 .stepper-mobile__info {
-  flex: 1;
-  min-width: 0;
-  margin-right: 0.75rem;
+  @apply flex-1 min-w-0 mr-3;
 }
 
 .stepper-mobile__title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #18181b;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin: 0;
+  @apply text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate m-0;
 }
 
 .stepper-mobile__progress {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.25rem;
+  @apply flex items-center gap-2 mt-1;
 }
 
 .stepper-mobile__progress-bar {
-  flex: 1;
-  background-color: #e4e4e7;
-  border-radius: 9999px;
-  height: 0.375rem;
+  @apply flex-1 bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5;
 }
 
 .stepper-mobile__progress-fill {
-  background-color: #18181b;
-  height: 0.375rem;
-  border-radius: 9999px;
-  transition: width 0.3s ease;
+  @apply bg-zinc-900 dark:bg-white h-1.5 rounded-full transition-all duration-300;
 }
 
 .stepper-mobile__progress-text {
-  font-size: 0.75rem;
-  color: #71717a;
-  white-space: nowrap;
+  @apply text-xs text-zinc-500 dark:text-zinc-400 whitespace-nowrap;
 }
 
 .stepper-mobile__menu-btn {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background-color 0.2s ease;
-}
-
-.stepper-mobile__menu-btn:hover {
-  background-color: #f4f4f5;
+  @apply p-2 rounded-lg bg-transparent border-none cursor-pointer shrink-0 transition-colors duration-200 hover:bg-zinc-100 dark:hover:bg-zinc-800;
 }
 
 .stepper-mobile__menu-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #71717a;
+  @apply w-5 h-5 text-zinc-500 dark:text-zinc-400;
 }
 
 /* Mobile Menu Dropdown */
 .stepper-mobile__menu {
-  padding: 0.75rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  max-height: 16rem;
-  overflow-y: auto;
-  border-top: 1px solid #f4f4f5;
+  @apply px-4 py-3 flex flex-col gap-1 max-h-64 overflow-y-auto border-t border-zinc-100 dark:border-zinc-800;
 }
 
 .stepper-mobile__menu-item {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
-  width: 100%;
-  text-align: left;
-  font-size: 0.875rem;
-  border: none;
-  background: transparent;
-  cursor: pointer;
+  @apply flex items-center p-2 rounded-lg transition-all duration-200 w-full text-left text-sm border-none bg-transparent cursor-pointer;
 }
 
-.stepper-mobile__menu-item:hover:not(:disabled) {
-  background-color: #f4f4f5;
+.stepper-mobile__menu-item:hover:not(:disabled):not(.stepper-mobile__menu-item--current) {
+  @apply bg-zinc-100 dark:bg-zinc-800;
 }
 
 .stepper-mobile__menu-item--current {
-  background-color: #18181b;
-  color: #ffffff;
+  @apply bg-zinc-900 dark:bg-white text-white dark:text-zinc-900;
 }
 
 .stepper-mobile__menu-item--current:hover {
-  background-color: #18181b;
+  @apply bg-zinc-800 dark:bg-zinc-100;
 }
 
 .stepper-mobile__menu-item--completed {
-  color: #52525b;
+  @apply text-zinc-600 dark:text-zinc-400;
 }
 
 .stepper-mobile__menu-item--disabled {
-  color: #d4d4d8;
-  cursor: not-allowed;
+  @apply text-zinc-300 dark:text-zinc-600 cursor-not-allowed;
 }
 
 .stepper-mobile__indicator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 9999px;
-  margin-right: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  flex-shrink: 0;
-  background-color: #f4f4f5;
-  color: #a1a1aa;
+  @apply flex items-center justify-center w-5 h-5 rounded-full mr-2 text-xs font-semibold shrink-0 bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500;
 }
 
 .stepper-mobile__indicator--current {
-  background-color: #ffffff;
-  color: #18181b;
+  @apply bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white;
 }
 
 .stepper-mobile__indicator--completed {
-  background-color: #18181b;
-  color: #ffffff;
+  @apply bg-zinc-900 dark:bg-white text-white dark:text-zinc-900;
 }
 
 .stepper-mobile__indicator--disabled {
-  background-color: #f4f4f5;
-  color: #d4d4d8;
+  @apply bg-zinc-100 dark:bg-zinc-800 text-zinc-300 dark:text-zinc-600;
 }
 
 .stepper-mobile__indicator-check {
-  width: 0.75rem;
-  height: 0.75rem;
+  @apply w-3 h-3;
 }
 
 .stepper-mobile__indicator-lock {
-  width: 0.625rem;
-  height: 0.625rem;
+  @apply w-2.5 h-2.5;
 }
 
 .stepper-mobile__menu-item-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @apply truncate;
 }
 </style>

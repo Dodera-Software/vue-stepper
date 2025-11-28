@@ -12,12 +12,13 @@ A headless, accessible, and fully customizable multi-step stepper component for 
 ## ✨ Features
 
 - 🎨 **Fully Customizable** - Complete UI control via `:ui` prop system
+- 🌙 **Dark Mode** - Built-in dark mode support (follows system preference)
 - 📱 **Responsive** - Sidebar collapses on mobile with dropdown menu
 - 🔒 **Step Locking** - Prevent navigation to specific steps
 - ⏭️ **Optional Steps** - Mark steps as optional with visual indicators
 - 📊 **Progress Tracking** - Automatic step counters and progress bars
 - 🎯 **TypeScript** - Full type safety out of the box
-- 🪶 **Lightweight** - No external dependencies
+- 🪶 **Zero Dependencies** - No external CSS frameworks required
 - 🎛️ **Headless Ready** - Use your own styles or the built-in ones
 
 ## 📦 Installation
@@ -25,6 +26,8 @@ A headless, accessible, and fully customizable multi-step stepper component for 
 ```bash
 npm install @doderasoftware/vue-stepper
 ```
+
+That's it! Styles are automatically included - no additional CSS imports needed.
 
 ## 🚀 Quick Start
 
@@ -48,13 +51,12 @@ npm install @doderasoftware/vue-stepper
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Stepper } from '@doderasoftware/vue-stepper'
-import '@doderasoftware/vue-stepper/dist/style.css'
 
 const currentStep = ref(0)
 const formData = ref({ personal: {}, account: {} })
 
 const steps = [
-  { category: 'Step 1', title: 'Personal Info' },
+  { category: 'Step 1', title: 'Personal Info', description: 'Enter your personal details' },
   { category: 'Step 2', title: 'Account Details', optional: true },
   { category: 'Step 3', title: 'Review & Submit' },
 ]
@@ -71,6 +73,19 @@ function handleComplete() {
 }
 </script>
 ```
+
+## 🌙 Dark Mode
+
+The component includes full dark mode support out of the box. It uses class-based dark mode - add the `dark` class to your `<html>` or `<body>` element to enable dark styles.
+
+```html
+<!-- Enable dark mode via class on html/body -->
+<html class="dark">
+  ...
+</html>
+```
+
+This approach is compatible with most dark mode implementations (Tailwind, manual toggle, etc.).
 
 ## 🎨 UI Customization
 

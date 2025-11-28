@@ -1,22 +1,3 @@
-<script setup lang="ts">
-interface Column {
-  header: string
-  key: string
-  width?: string
-}
-
-interface Props {
-  columns: Column[]
-  data: any[]
-}
-
-defineProps<Props>()
-
-function isCodeColumn(key: string): boolean {
-  return ['type', 'default', 'name', 'payload', 'props'].includes(key)
-}
-</script>
-
 <template>
   <div class="my-6 overflow-hidden border border-zinc-200 rounded-lg">
     <div class="overflow-x-auto">
@@ -42,3 +23,22 @@ function isCodeColumn(key: string): boolean {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+interface Column {
+  header: string
+  key: string
+  width?: string
+}
+
+interface Props {
+  columns: Column[]
+  data: any[]
+}
+
+defineProps<Props>()
+
+function isCodeColumn(key: string): boolean {
+  return ['type', 'default', 'name', 'payload', 'props'].includes(key)
+}
+</script>

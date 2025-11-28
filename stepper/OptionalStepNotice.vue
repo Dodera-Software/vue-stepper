@@ -49,33 +49,25 @@ const ui = computed(() => props.ui || {})
 </script>
 
 <style>
+/* Optional Notice - Tailwind CSS with Dark Mode Support
+   Dark mode uses class-based strategy (.dark class on html/body) */
 .stepper-notice {
-  padding: 0.75rem;
-  background-color: #eff6ff;
-  border: 1px solid #bfdbfe;
-  border-radius: 0.5rem;
+  @apply p-3 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg;
 }
 
 .stepper-notice__content {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
+  @apply flex items-start gap-2;
 }
 
 .stepper-notice__icon {
-  width: 1rem;
-  height: 1rem;
-  color: #3b82f6;
-  margin-top: 0.125rem;
-  flex-shrink: 0;
+  @apply w-4 h-4 text-blue-500 dark:text-blue-400 mt-0.5 shrink-0;
 }
 
 .stepper-notice__text {
-  font-size: 0.875rem;
-  color: #1e40af;
+  @apply text-sm text-blue-800 dark:text-blue-200;
 }
 
 .stepper-notice__title {
-  font-weight: 500;
+  @apply font-medium;
 }
 </style>

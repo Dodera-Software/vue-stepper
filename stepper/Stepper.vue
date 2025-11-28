@@ -83,8 +83,13 @@
         <slot name="header"></slot>
 
         <div :class="[defaultClasses.contentWrapper, ui.contentWrapper]">
-          <!-- Title Slot -->
-          <slot name="title"></slot>
+          <!-- Title Slot - shows default content from step config if not overridden -->
+          <slot name="title">
+            <div v-if="currentStepConfig?.title" :class="[defaultClasses.stepHeader, ui.stepHeader]">
+              <h3 :class="[defaultClasses.stepHeaderTitle, ui.stepHeaderTitle]">{{ currentStepConfig.title }}</h3>
+              <p v-if="currentStepConfig?.description" :class="[defaultClasses.stepHeaderDescription, ui.stepHeaderDescription]">{{ currentStepConfig.description }}</p>
+            </div>
+          </slot>
 
           <!-- Main Content Card -->
           <div :class="[defaultClasses.card, ui.card]">
@@ -282,6 +287,9 @@ const defaultClasses = {
   main: 'stepper__main',
   mainContent: 'stepper__main-content',
   contentWrapper: 'stepper__content-wrapper',
+  stepHeader: 'stepper__step-header',
+  stepHeaderTitle: 'stepper__step-header-title',
+  stepHeaderDescription: 'stepper__step-header-description',
   card: 'stepper__card',
   optionalNotice: 'stepper__optional-notice',
   navigation: 'stepper__navigation',
@@ -480,319 +488,213 @@ defineExpose({
 
 <style>
 /* ============================================================================
-   Base Stepper Styles
-   These use BEM naming convention and can be fully overridden via :ui prop
+   Base Stepper Styles - Tailwind CSS with Dark Mode Support
+   Dark mode uses class-based strategy (.dark class on html/body)
+   Can be fully overridden via :ui prop
    ============================================================================ */
 
 .stepper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-}
-
-@media (min-width: 1024px) {
-  .stepper {
-    flex-direction: row;
-  }
+  @apply flex flex-col lg:flex-row h-full w-full;
 }
 
 /* Sidebar */
 .stepper__sidebar {
-  display: none;
-  width: 16rem;
-  background-color: #fafafa;
-  border-right: 1px solid #e4e4e7;
-  flex-direction: column;
-}
-
-@media (min-width: 1024px) {
-  .stepper__sidebar {
-    display: flex;
-  }
+  @apply hidden lg:flex w-64 bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 flex-col;
 }
 
 .stepper__sidebar-content {
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  @apply p-5 flex flex-col h-full;
 }
 
 .stepper__sidebar-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #18181b;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  @apply text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4 uppercase tracking-wide;
 }
 
 /* Navigation */
 .stepper__nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  flex: 1;
+  @apply flex flex-col gap-1 flex-1;
 }
 
 .stepper__nav-item {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
-  width: 100%;
-  text-align: left;
-  border: none;
-  background: transparent;
-  cursor: pointer;
+  @apply flex items-center p-3 rounded-lg transition-all duration-200 w-full text-left border-none bg-transparent cursor-pointer;
 }
 
-.stepper__nav-item:hover:not(:disabled) {
-  background-color: #f4f4f5;
+.stepper__nav-item:hover:not(:disabled):not(.stepper__nav-item--current) {
+  @apply bg-zinc-100 dark:bg-zinc-800;
 }
 
 .stepper__nav-item--current {
-  background-color: #18181b;
-  color: #ffffff;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  @apply bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 shadow-sm;
 }
 
 .stepper__nav-item--current:hover {
-  background-color: #18181b;
+  @apply bg-zinc-800 dark:bg-zinc-100;
 }
 
 .stepper__nav-item--completed {
-  color: #52525b;
+  @apply text-zinc-600 dark:text-zinc-400;
 }
 
 .stepper__nav-item--disabled {
-  color: #d4d4d8;
-  cursor: not-allowed;
+  @apply text-zinc-300 dark:text-zinc-600 cursor-not-allowed;
 }
 
 /* Step Indicator */
 .stepper__indicator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 9999px;
-  margin-right: 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-  background-color: #f4f4f5;
-  color: #a1a1aa;
+  @apply flex items-center justify-center w-6 h-6 rounded-full mr-3 text-sm font-semibold transition-all duration-200 shrink-0 bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500;
 }
 
 .stepper__indicator--current {
-  background-color: #ffffff;
-  color: #18181b;
+  @apply bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white;
 }
 
 .stepper__indicator--completed {
-  background-color: #18181b;
-  color: #ffffff;
+  @apply bg-zinc-900 dark:bg-white text-white dark:text-zinc-900;
 }
 
 .stepper__indicator--disabled {
-  background-color: #f4f4f5;
-  color: #d4d4d8;
+  @apply bg-zinc-100 dark:bg-zinc-800 text-zinc-300 dark:text-zinc-600;
 }
 
 .stepper__indicator-check {
-  width: 1rem;
-  height: 1rem;
+  @apply w-4 h-4;
 }
 
 .stepper__indicator-lock {
-  width: 0.75rem;
-  height: 0.75rem;
+  @apply w-3 h-3;
 }
 
 /* Step Content */
 .stepper__step-content {
-  flex: 1;
-  min-width: 0;
+  @apply flex-1 min-w-0;
 }
 
 .stepper__step-category {
-  font-size: 0.625rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
-  margin-bottom: 0.125rem;
-  color: #a1a1aa;
+  @apply text-[10px] uppercase tracking-wide font-medium mb-0.5 text-zinc-400 dark:text-zinc-500;
 }
 
 .stepper__step-category--current {
-  color: #d4d4d8;
+  @apply text-zinc-300 dark:text-zinc-600;
 }
 
 .stepper__step-category--completed {
-  color: #a1a1aa;
+  @apply text-zinc-400 dark:text-zinc-500;
 }
 
 .stepper__step-category--disabled {
-  color: #d4d4d8;
+  @apply text-zinc-300 dark:text-zinc-600;
 }
 
 .stepper__step-title {
-  font-size: 0.875rem;
-  font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #71717a;
+  @apply text-sm font-medium truncate text-zinc-500 dark:text-zinc-400;
 }
 
 .stepper__step-title--current {
-  color: #ffffff;
+  @apply text-white dark:text-zinc-900;
 }
 
 .stepper__step-title--completed {
-  color: #18181b;
+  @apply text-zinc-900 dark:text-zinc-100;
 }
 
 .stepper__step-title--disabled {
-  color: #d4d4d8;
+  @apply text-zinc-300 dark:text-zinc-600;
 }
 
 .stepper__optional-badge {
-  font-size: 0.625rem;
-  font-weight: 400;
-  margin-left: 0.25rem;
-  opacity: 0.6;
+  @apply text-[10px] font-normal ml-1 opacity-60;
 }
 
 /* Progress */
 .stepper__progress {
-  margin-top: auto;
-  padding-top: 1.25rem;
-  border-top: 1px solid #f4f4f5;
+  @apply mt-auto pt-5 border-t border-zinc-100 dark:border-zinc-800;
 }
 
 .stepper__progress-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: #71717a;
-  margin-bottom: 0.5rem;
+  @apply flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 mb-2;
 }
 
 .stepper__progress-bar {
-  width: 100%;
-  background-color: #e4e4e7;
-  border-radius: 9999px;
-  height: 0.375rem;
+  @apply w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5;
 }
 
 .stepper__progress-fill {
-  background-color: #18181b;
-  height: 0.375rem;
-  border-radius: 9999px;
-  transition: width 0.3s ease;
+  @apply bg-zinc-900 dark:bg-white h-1.5 rounded-full transition-all duration-300;
 }
 
 /* Main Content */
 .stepper__main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+  @apply flex-1 flex flex-col min-h-0 bg-white dark:bg-zinc-950;
 }
 
 .stepper__main-content {
-  flex: 1;
-  overflow: auto;
-  padding: 1.5rem;
+  @apply flex-1 overflow-auto p-6;
 }
 
 .stepper__content-wrapper {
-  max-width: 56rem;
+  @apply max-w-4xl;
+}
+
+/* Step Header (default title/description) */
+.stepper__step-header {
+  @apply mb-6;
+}
+
+.stepper__step-header-title {
+  @apply text-xl font-bold text-zinc-900 dark:text-zinc-100 m-0 mb-1;
+}
+
+.stepper__step-header-description {
+  @apply text-sm text-zinc-500 dark:text-zinc-400 m-0;
 }
 
 .stepper__card {
-  background-color: #ffffff;
-  border-radius: 0.75rem;
-  border: 1px solid #f4f4f5;
-  padding: 1.25rem;
+  @apply bg-white dark:bg-zinc-800 rounded-xl border border-zinc-100 dark:border-zinc-700 p-5;
 }
 
 .stepper__optional-notice {
-  margin-top: 1rem;
+  @apply mt-4;
 }
 
 /* Navigation */
 .stepper__navigation {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid #f4f4f5;
-  margin-top: 1rem;
-  background-color: rgba(250, 250, 250, 0.5);
-  margin: 1rem -1.25rem -1.25rem;
-  padding: 1.25rem;
-  border-radius: 0 0 0.75rem 0.75rem;
+  @apply flex items-center justify-between gap-3 pt-5 border-t border-zinc-100 dark:border-zinc-700 mt-4 bg-zinc-50/50 dark:bg-zinc-900/50 -mx-5 -mb-5 p-5 rounded-b-xl;
 }
 
 /* Buttons */
 .stepper__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
-  border: none;
-  cursor: pointer;
+  @apply inline-flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 border-none cursor-pointer;
 }
 
 .stepper__btn--primary {
-  background-color: #18181b;
-  color: #ffffff;
-  box-shadow: 0 10px 15px -3px rgb(24 24 27 / 0.2);
+  @apply bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 shadow-lg shadow-zinc-900/20 dark:shadow-black/20;
 }
 
 .stepper__btn--primary:hover:not(:disabled) {
-  background-color: #27272a;
+  @apply bg-zinc-800 dark:bg-zinc-100;
 }
 
 .stepper__btn--secondary {
-  background-color: transparent;
-  color: #52525b;
+  @apply bg-transparent text-zinc-600 dark:text-zinc-400;
 }
 
 .stepper__btn--secondary:hover {
-  background-color: #f4f4f5;
+  @apply bg-zinc-100 dark:bg-zinc-700;
 }
 
 .stepper__btn--disabled {
-  background-color: #e4e4e7;
-  color: #a1a1aa;
-  cursor: not-allowed;
-  box-shadow: none;
+  @apply bg-zinc-200 dark:bg-zinc-700 text-zinc-400 dark:text-zinc-500 cursor-not-allowed shadow-none;
 }
 
 .stepper__btn-icon {
-  width: 1rem;
-  height: 1rem;
+  @apply w-4 h-4;
 }
 
 .stepper__btn-icon--left {
-  margin-right: 0.25rem;
+  @apply mr-1;
 }
 
 .stepper__btn-icon--right {
-  margin-left: 0.25rem;
+  @apply ml-1;
 }
 </style>

@@ -1,6 +1,132 @@
 {
     "versions": [
         {
+            "version": "1.0.9",
+            "date": "2025-11-27",
+            "type": "patch",
+            "summary": "Fixed Dark Mode - Class-Based Strategy",
+            "changes": [
+                {
+                    "type": "fix",
+                    "title": "Dark Mode Control",
+                    "description": "Switched from prefers-color-scheme media query to class-based dark mode (.dark class). Dark styles now only apply when a dark class is present on a parent element."
+                },
+                {
+                    "type": "change",
+                    "title": "Tailwind 3 Build",
+                    "description": "Switched build tooling from Tailwind CSS v4 to v3 for better compatibility and class-based dark mode support."
+                }
+            ]
+        },
+        {
+            "version": "1.0.8",
+            "date": "2025-11-27",
+            "type": "minor",
+            "summary": "Zero Dependencies - No Tailwind Required!",
+            "changes": [
+                {
+                    "type": "feature",
+                    "title": "Zero Config Installation",
+                    "description": "Tailwind CSS is no longer required! All styles are now pre-compiled and bundled with the component."
+                },
+                {
+                    "type": "change",
+                    "title": "Removed Peer Dependency",
+                    "description": "Removed tailwindcss from peerDependencies. Only Vue 3.3+ is required."
+                },
+                {
+                    "type": "fix",
+                    "title": "Self-Contained Styles",
+                    "description": "Component now ships with fully compiled CSS, making it work out of the box in any Vue 3 project."
+                }
+            ]
+        },
+        {
+            "version": "1.0.7",
+            "date": "2025-11-27",
+            "type": "patch",
+            "summary": "Dark Mode Background Fix",
+            "changes": [
+                {
+                    "type": "fix",
+                    "title": "Dark Mode Background",
+                    "description": "Main content area (.stepper__main) now has proper background color in dark mode (bg-white dark:bg-zinc-950)."
+                }
+            ]
+        },
+        {
+            "version": "1.0.6",
+            "date": "2025-11-27",
+            "type": "minor",
+            "summary": "Dark Mode Support",
+            "changes": [
+                {
+                    "type": "feature",
+                    "title": "Dark Mode Support",
+                    "description": "Full dark mode support throughout all components. Uses prefers-color-scheme media query (system preference)."
+                },
+                {
+                    "type": "feature",
+                    "title": "Step Description",
+                    "description": "Added description field to StepConfig for displaying step descriptions in the default title slot."
+                },
+                {
+                    "type": "change",
+                    "title": "No CSS Import Required",
+                    "description": "Styles are automatically injected, no need to import a separate CSS file."
+                }
+            ]
+        },
+        {
+            "version": "1.0.5",
+            "date": "2025-11-27",
+            "type": "patch",
+            "summary": "UI Polish",
+            "changes": [
+                {
+                    "type": "fix",
+                    "title": "Step Hover States",
+                    "description": "Fixed hover color on current step - now shows a subtle darker shade instead of conflicting with inactive step hover color."
+                }
+            ]
+        },
+        {
+            "version": "1.0.4",
+            "date": "2025-11-27",
+            "type": "patch",
+            "summary": "Auto CSS Injection",
+            "changes": [
+                {
+                    "type": "feature",
+                    "title": "Zero-Config Styling",
+                    "description": "CSS is now automatically injected when importing the component. No separate CSS import required - just import and use!"
+                },
+                {
+                    "type": "change",
+                    "title": "Embedded Styles",
+                    "description": "Styles are now bundled directly into the JavaScript. The separate CSS file is no longer generated."
+                }
+            ]
+        },
+        {
+            "version": "1.0.3",
+            "date": "2025-11-27",
+            "type": "patch",
+            "summary": "CSS Bundle Fix",
+            "changes": [
+                {
+                    "type": "fix",
+                    "title": "CSS Not Included in Package",
+                    "description": "Fixed issue where CSS styles were not being bundled into the distributed package, causing unstyled components when installed via npm."
+                },
+                {
+                    "type": "fix",
+                    "title": "CSS Export Paths",
+                    "description": "Added multiple CSS import paths for flexibility: '@doderasoftware/vue-stepper/style.css', '@doderasoftware/vue-stepper/dist/style.css', and '@doderasoftware/vue-stepper/dist/vue-stepper.css'."
+                }
+            ]
+        },
+        {
             "version": "1.0.2",
             "date": "2025-11-27",
             "type": "patch",

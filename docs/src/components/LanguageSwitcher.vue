@@ -1,35 +1,3 @@
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { Globe, ChevronDown } from 'lucide-vue-next'
-
-const { locale } = useI18n()
-const isOpen = ref(false)
-
-const languages = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'ro', name: 'Română', flag: '🇷🇴' },
-]
-
-function currentLanguage() {
-  return languages.find(l => l.code === locale.value) ?? languages[0]
-}
-
-function setLanguage(code: string) {
-  locale.value = code
-  isOpen.value = false
-  window.localStorage.setItem('locale', code)
-}
-
-// Load saved locale on mount
-onMounted(() => {
-  const savedLocale = window.localStorage.getItem('locale')
-  if (savedLocale && languages.some(l => l.code === savedLocale)) {
-    locale.value = savedLocale
-  }
-})
-</script>
-
 <template>
   <div class="relative">
     <button
@@ -65,3 +33,35 @@ onMounted(() => {
     ></div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Globe, ChevronDown } from 'lucide-vue-next'
+
+const { locale } = useI18n()
+const isOpen = ref(false)
+
+const languages = [
+  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'ro', name: 'Română', flag: '🇷🇴' },
+]
+
+function currentLanguage() {
+  return languages.find(l => l.code === locale.value) ?? languages[0]
+}
+
+function setLanguage(code: string) {
+  locale.value = code
+  isOpen.value = false
+  window.localStorage.setItem('locale', code)
+}
+
+// Load saved locale on mount
+onMounted(() => {
+  const savedLocale = window.localStorage.getItem('locale')
+  if (savedLocale && languages.some(l => l.code === savedLocale)) {
+    locale.value = savedLocale
+  }
+})
+</script>

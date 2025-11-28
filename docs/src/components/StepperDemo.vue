@@ -1,125 +1,3 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { Check, Lock, ChevronLeft, ChevronRight, CheckCircle, Menu, X, User, FileText, Settings, Info } from 'lucide-vue-next'
-
-const { t } = useI18n()
-
-interface StepConfig {
-  id?: string | number
-  category: string
-  title: string
-  disabled?: boolean
-  optional?: boolean
-}
-
-interface Props {
-  class?: string
-}
-
-defineProps<Props>()
-
-const currentStep = ref(0)
-const mobileMenuOpen = ref(false)
-const completed = ref(false)
-const formData = ref({
-  personal: { firstName: '', lastName: '', email: '' },
-  account: { company: '', role: '' },
-  preferences: { emailNotif: true, smsNotif: false, marketingNotif: false, timezone: '' },
-})
-
-const steps = computed<StepConfig[]>(() => [
-  { id: 1, category: t('Step 1'), title: t('Personal Info') },
-  { id: 2, category: t('Step 2'), title: t('Account Details'), optional: true },
-  { id: 3, category: t('Step 3'), title: t('Preferences'), disabled: false },
-  { id: 4, category: t('Step 4'), title: t('Review & Submit') },
-])
-
-const notificationOptions = computed(() => [
-  { key: 'emailNotif', label: t('Email notifications') },
-  { key: 'smsNotif', label: t('SMS notifications') },
-  { key: 'marketingNotif', label: t('Marketing emails') },
-])
-
-const progress = computed(() => ((currentStep.value + 1) / steps.value.length) * 100)
-const isFirstStep = computed(() => currentStep.value === 0)
-const isLastStep = computed(() => currentStep.value === steps.value.length - 1)
-const currentStepConfig = computed(() => steps.value[currentStep.value])
-
-const canProceed = computed(() => {
-  if (currentStep.value === 0) {
-    return formData.value.personal.firstName && formData.value.personal.email
-  }
-  return true
-})
-
-function isStepDisabled(index: number) {
-  return steps.value[index]?.disabled ?? false
-}
-
-function isStepAccessible(index: number) {
-  if (isStepDisabled(index)) return false
-  return index <= currentStep.value
-}
-
-function handleNext() {
-  if (!isLastStep.value && canProceed.value) {
-    currentStep.value++
-  }
-}
-
-function handleBack() {
-  if (!isFirstStep.value) {
-    currentStep.value--
-  }
-}
-
-function handleStepClick(index: number) {
-  if (isStepAccessible(index)) {
-    currentStep.value = index
-    mobileMenuOpen.value = false
-  }
-}
-
-function handleComplete() {
-  completed.value = true
-}
-
-function handleReset() {
-  currentStep.value = 0
-  completed.value = false
-  formData.value = {
-    personal: { firstName: '', lastName: '', email: '' },
-    account: { company: '', role: '' },
-    preferences: { emailNotif: true, smsNotif: false, marketingNotif: false, timezone: '' },
-  }
-}
-
-function getStepButtonClasses(index: number) {
-  const isCurrent = index === currentStep.value
-  const isPast = index < currentStep.value
-  const disabled = isStepDisabled(index)
-  const accessible = isStepAccessible(index)
-
-  if (disabled || !accessible) return 'text-zinc-300 cursor-not-allowed'
-  if (isCurrent) return 'bg-zinc-900 text-white shadow-sm'
-  if (isPast) return 'text-zinc-600 hover:bg-zinc-100'
-  return 'text-zinc-400'
-}
-
-function getStepIndicatorClasses(index: number) {
-  const isCurrent = index === currentStep.value
-  const isPast = index < currentStep.value
-  const disabled = isStepDisabled(index)
-  const accessible = isStepAccessible(index)
-
-  if (disabled || !accessible) return 'bg-zinc-100 text-zinc-300'
-  if (isCurrent) return 'bg-white text-zinc-900'
-  if (isPast) return 'bg-zinc-900 text-white'
-  return 'bg-zinc-100 text-zinc-400'
-}
-</script>
-
 <template>
   <div v-if="completed" class="bg-white rounded-2xl border border-zinc-200 shadow-xl overflow-hidden">
     <div class="text-center py-8">
@@ -435,3 +313,126 @@ function getStepIndicatorClasses(index: number) {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Check, Lock, ChevronLeft, ChevronRight, CheckCircle, Menu, X, User, FileText, Settings, Info } from 'lucide-vue-next'
+
+const { t } = useI18n()
+
+interface StepConfig {
+  id?: string | number
+  category: string
+  title: string
+  disabled?: boolean
+  optional?: boolean
+}
+
+interface Props {
+  class?: string
+}
+
+defineProps<Props>()
+
+const currentStep = ref(0)
+const mobileMenuOpen = ref(false)
+const completed = ref(false)
+const formData = ref({
+  personal: { firstName: '', lastName: '', email: '' },
+  account: { company: '', role: '' },
+  preferences: { emailNotif: true, smsNotif: false, marketingNotif: false, timezone: '' },
+})
+
+const steps = computed<StepConfig[]>(() => [
+  { id: 1, category: t('Step 1'), title: t('Personal Info') },
+  { id: 2, category: t('Step 2'), title: t('Account Details'), optional: true },
+  { id: 3, category: t('Step 3'), title: t('Preferences'), disabled: false },
+  { id: 4, category: t('Step 4'), title: t('Review & Submit') },
+])
+
+const notificationOptions = computed(() => [
+  { key: 'emailNotif', label: t('Email notifications') },
+  { key: 'smsNotif', label: t('SMS notifications') },
+  { key: 'marketingNotif', label: t('Marketing emails') },
+])
+
+const progress = computed(() => ((currentStep.value + 1) / steps.value.length) * 100)
+const isFirstStep = computed(() => currentStep.value === 0)
+const isLastStep = computed(() => currentStep.value === steps.value.length - 1)
+const currentStepConfig = computed(() => steps.value[currentStep.value])
+
+const canProceed = computed(() => {
+  if (currentStep.value === 0) {
+    return formData.value.personal.firstName && formData.value.personal.email
+  }
+  return true
+})
+
+function isStepDisabled(index: number) {
+  return steps.value[index]?.disabled ?? false
+}
+
+function isStepAccessible(index: number) {
+  if (isStepDisabled(index)) return false
+  return index <= currentStep.value
+}
+
+function handleNext() {
+  if (!isLastStep.value && canProceed.value) {
+    currentStep.value++
+  }
+}
+
+function handleBack() {
+  if (!isFirstStep.value) {
+    currentStep.value--
+  }
+}
+
+function handleStepClick(index: number) {
+  if (isStepAccessible(index)) {
+    currentStep.value = index
+    mobileMenuOpen.value = false
+  }
+}
+
+function handleComplete() {
+  completed.value = true
+}
+
+function handleReset() {
+  currentStep.value = 0
+  completed.value = false
+  formData.value = {
+    personal: { firstName: '', lastName: '', email: '' },
+    account: { company: '', role: '' },
+    preferences: { emailNotif: true, smsNotif: false, marketingNotif: false, timezone: '' },
+  }
+}
+
+function getStepButtonClasses(index: number) {
+  const isCurrent = index === currentStep.value
+  const isPast = index < currentStep.value
+  const disabled = isStepDisabled(index)
+  const accessible = isStepAccessible(index)
+
+  if (disabled || !accessible) return 'text-zinc-300 cursor-not-allowed'
+  if (isCurrent) return 'bg-zinc-900 text-white shadow-sm'
+  if (isPast) return 'text-zinc-600 hover:bg-zinc-100'
+  return 'text-zinc-400'
+}
+
+function getStepIndicatorClasses(index: number) {
+  const isCurrent = index === currentStep.value
+  const isPast = index < currentStep.value
+  const disabled = isStepDisabled(index)
+  const accessible = isStepAccessible(index)
+
+  if (disabled || !accessible) return 'bg-zinc-100 text-zinc-300'
+  if (isCurrent) return 'bg-white text-zinc-900'
+  if (isPast) return 'bg-zinc-900 text-white'
+  return 'bg-zinc-100 text-zinc-400'
+}
+</script>
+

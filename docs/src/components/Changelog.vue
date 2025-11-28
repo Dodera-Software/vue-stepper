@@ -1,3 +1,69 @@
+<template>
+  <div class="space-y-4">
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center py-8 text-zinc-500">
+      {{ t('Loading changelog...') }}
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="text-center py-8 text-red-500">
+      {{ error }}
+    </div>
+
+    <!-- Changelog List -->
+    <div v-else-if="changelog" class="max-h-[600px] overflow-y-auto space-y-4 pr-2">
+      <div
+        v-for="version in changelog.versions"
+        :key="version.version"
+        class="border border-zinc-200 rounded-xl overflow-hidden"
+      >
+        <!-- Version Header -->
+        <button
+          class="w-full flex items-center justify-between p-4 bg-zinc-50 hover:bg-zinc-100 transition-colors text-left"
+          @click="toggleVersion(version.version)"
+        >
+          <div class="flex items-center gap-3">
+            <span class="text-lg font-bold text-zinc-900">v{{ version.version }}</span>
+            <span :class="['text-xs font-medium px-2 py-0.5 rounded-full uppercase', getVersionBadgeColor(version.type)]">
+              {{ version.type }}
+            </span>
+            <span class="text-sm text-zinc-500">{{ formatDate(version.date) }}</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-sm text-zinc-500 hidden sm:block">{{ version.summary }}</span>
+            <ChevronUp v-if="isExpanded(version.version)" class="w-5 h-5 text-zinc-400" />
+            <ChevronDown v-else class="w-5 h-5 text-zinc-400" />
+          </div>
+        </button>
+
+        <!-- Version Details -->
+        <div v-if="isExpanded(version.version)" class="p-4 space-y-3 border-t border-zinc-100">
+          <p class="text-sm text-zinc-600 mb-4">{{ version.summary }}</p>
+          
+          <div
+            v-for="(change, index) in version.changes"
+            :key="index"
+            class="flex items-start gap-3 p-3 rounded-lg bg-white border border-zinc-100"
+          >
+            <div :class="['p-1.5 rounded-md', getChangeColor(change.type)]">
+              <component :is="getChangeIcon(change.type)" class="w-4 h-4" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="font-medium text-zinc-900">{{ change.title }}</span>
+                <span :class="['text-[10px] font-medium px-1.5 py-0.5 rounded uppercase', getChangeColor(change.type)]">
+                  {{ getChangeBadge(change.type) }}
+                </span>
+              </div>
+              <p class="text-sm text-zinc-500">{{ change.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -108,69 +174,3 @@ function formatDate(dateStr: string) {
   })
 }
 </script>
-
-<template>
-  <div class="space-y-4">
-    <!-- Loading State -->
-    <div v-if="loading" class="text-center py-8 text-zinc-500">
-      {{ t('Loading changelog...') }}
-    </div>
-
-    <!-- Error State -->
-    <div v-else-if="error" class="text-center py-8 text-red-500">
-      {{ error }}
-    </div>
-
-    <!-- Changelog List -->
-    <div v-else-if="changelog" class="space-y-4">
-      <div
-        v-for="version in changelog.versions"
-        :key="version.version"
-        class="border border-zinc-200 rounded-xl overflow-hidden"
-      >
-        <!-- Version Header -->
-        <button
-          class="w-full flex items-center justify-between p-4 bg-zinc-50 hover:bg-zinc-100 transition-colors text-left"
-          @click="toggleVersion(version.version)"
-        >
-          <div class="flex items-center gap-3">
-            <span class="text-lg font-bold text-zinc-900">v{{ version.version }}</span>
-            <span :class="['text-xs font-medium px-2 py-0.5 rounded-full uppercase', getVersionBadgeColor(version.type)]">
-              {{ version.type }}
-            </span>
-            <span class="text-sm text-zinc-500">{{ formatDate(version.date) }}</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-sm text-zinc-500 hidden sm:block">{{ version.summary }}</span>
-            <ChevronUp v-if="isExpanded(version.version)" class="w-5 h-5 text-zinc-400" />
-            <ChevronDown v-else class="w-5 h-5 text-zinc-400" />
-          </div>
-        </button>
-
-        <!-- Version Details -->
-        <div v-if="isExpanded(version.version)" class="p-4 space-y-3 border-t border-zinc-100">
-          <p class="text-sm text-zinc-600 mb-4">{{ version.summary }}</p>
-          
-          <div
-            v-for="(change, index) in version.changes"
-            :key="index"
-            class="flex items-start gap-3 p-3 rounded-lg bg-white border border-zinc-100"
-          >
-            <div :class="['p-1.5 rounded-md', getChangeColor(change.type)]">
-              <component :is="getChangeIcon(change.type)" class="w-4 h-4" />
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="font-medium text-zinc-900">{{ change.title }}</span>
-                <span :class="['text-[10px] font-medium px-1.5 py-0.5 rounded uppercase', getChangeColor(change.type)]">
-                  {{ getChangeBadge(change.type) }}
-                </span>
-              </div>
-              <p class="text-sm text-zinc-500">{{ change.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>

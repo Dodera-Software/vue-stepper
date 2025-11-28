@@ -1,7 +1,7 @@
 {
   "name": "@doderasoftware/vue-stepper",
-  "version": "1.0.2",
-  "description": "A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease. Features TypeScript support, responsive mobile design, step validation, optional steps, progress tracking, and a powerful :ui prop system for complete style control.",
+  "version": "1.0.9",
+  "description": "A headless, accessible, and fully customizable multi-step stepper component for Vue 3. Build complex forms, wizards, and onboarding flows with ease. Features TypeScript support, responsive mobile design, step validation, optional steps, progress tracking, dark mode support, and a powerful :ui prop system for complete style control.",
   "author": {
     "name": "Dodera Software SRL",
     "url": "https://doderasoft.com",
@@ -59,17 +59,15 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/vue-stepper.js",
       "require": "./dist/vue-stepper.umd.cjs"
-    },
-    "./dist/style.css": "./dist/vue-stepper.css"
+    }
   },
   "files": [
     "dist",
     "README.md"
   ],
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "sideEffects": true,
   "scripts": {
+    "dev": "vite --config vite.dev.config.ts",
     "build": "vite build && vue-tsc --declaration --emitDeclarationOnly --outDir dist",
     "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
     "prepublishOnly": "npm run build"
@@ -80,8 +78,12 @@
   "devDependencies": {
     "@types/node": "^24.10.1",
     "@vitejs/plugin-vue": "^5.2.3",
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
+    "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-dts": "^4.5.0",
     "vue": "^3.5.13",
     "vue-tsc": "^2.2.10"
